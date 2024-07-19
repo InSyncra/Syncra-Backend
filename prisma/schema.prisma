@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id  String @id
+  email String @unique
+  name String?
+  bio String?
+  occupation String?
+  skills String[]
+  interests String[]
+  rating Float?
+  projects Project[] @relation("ProjectAdmin")
+  collaborations ProjectCollaboration[]
+  comments Comment[]
+  messagesSent ChatMessage[] @relation("Sender")
+  messagesRecieved ChatMessage[] @relation("Recipient")
+  followers UserFollow[] @relation("Followers")
+  followings UserFollow[] @relation("Followings")
+  badges UserBadge[]
+  role UserRole @default(USER)
+  status UserStatus @default(ACTIVE)
+  createdAt DateTime @default(now())
+}
+
+model UserFollow {
+  follower_id String
+  following_id String
+  follower User @relation("Followers", fields: [follower_id], references: [id])
+  following User @relation("Followings", fields: [following_id], references: [id])
+
+  @@id([follower_id, following_id])
+}
+
+model Project {
+  id          String @id @default(uuid()) 
+  title        String
+  description String
+  types String[] 
+  githubLink  String?
+  status ProjectStatus @default(ACTIVE)
+  adminUser User @relation("ProjectAdmin", fields: [adminUserId], references: [id])
+  adminUserId String
+  collaborators ProjectCollaboration[]
+  discussions Comment[]
+  createdAt DateTime @default(now())
+}
+
+model ProjectCollaboration {
+  projectId String
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  project Project @relation(fields: [projectId], references: [id])
+
+  @@id([projectId, userId])
+}
+
+model Comment {
+  id String @id @default(uuid())
+  body String
+  userId String
+  projectId String
+  project Project @relation(fields: [projectId], references: [id])
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+// TODO: Add comment replies model as a comment can have multiple replies
+// TODO: FUTURE FEATURE: Add Project Tasks
+
+model ChatMessage{
+  id String @id @default(uuid())
+  body String
+  senderId String
+  recipientId String
+  sender User @relation("Sender", fields: [senderId], references: [id])
+  recipient User @relation("Recipient", fields: [recipientId], references: [id])
+}
+
+model UserBadge {
+  id       String @id @default(uuid())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  achievement BadgeAchievement
+  description String
+  imgLink String
+}
+
+// ======= Enum Models ==========
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum ProjectStatus {
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+  COMPLETED
+  DELETED
+}
+
+enum UserStatus {
+  ACTIVE
+  UNDER_REVIEW
+  SUSPENDED
+  INACTIVE
+}
+
+// TODO: To get with team to determine what awards to give to users
+// For now, this is just an example
+
+// First_Time_Collaborator: User's first collaboration
+// Super_Collaborator: User has over 10 collaboration
+// Over_Achiever: User has over 100 collaboration
+// The_Reliable_One: User has at least 4.5 rating over 90 days
+
+enum BadgeAchievement {
+  First_Time_Collaborator
+  Super_Collaborator
+  Over_Achiever
+  The_Reliable_One
+}
+
+// ????????????????
+// Thought Process:
+// Should I add an enum for Project type?
+// Shantalia added the project types 
+// On one hand, it will be insuceptible to code vulnerabilities
+// But every new interest added to the project will need to reset the prisma file
