@@ -1,10 +1,10 @@
 {
-  "name": "devmate-backend",
+  "name": "syncra-backend",
   "version": "1.0.0",
-  "description": "This is the backend portion to devMate. Only authorized users can access this. For more info, see the README.md file.",
+  "description": "This is the backend portion to Syncra that will handle all routes and data processing. Only authorized users can access this. For more info, see the README.md file.",
   "main": "server/server.js",
   "scripts": {
-    "start": "nodemon server/server.js"
+    "dev": "nodemon server/server.js"
   },
   "keywords": [],
   "author": "Isaiah Vickers",
@@ -13,9 +13,12 @@
   "devDependencies": {
     "axios": "^1.7.2",
     "express": "^4.19.2",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "prisma": "^5.17.0"
   },
   "dependencies": {
-    "cors": "^2.8.5"
+    "@prisma/client": "^5.17.0",
+    "cors": "^2.8.5",
+    "firebase": "^10.12.4"
   }
 }
