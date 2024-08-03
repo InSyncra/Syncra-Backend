@@ -22,7 +22,7 @@ import Link from "next/link";
 
 const SideBar = () => {
   return (
-    <aside className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 gap-6 shadow-md">
+    <aside className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 shadow-md">
       <Link href="/" className="text-2xl flex gap=2">
         <span className="text-2xl font-bold uppercase">Syncra</span>
         <span className="text-sm italic">Backend</span>
