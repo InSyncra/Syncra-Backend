@@ -1,3 +1,6 @@
+import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
+import Link from "next/link";
+
 const DockerSetupPage = () => {
   return (
     <div>
@@ -14,12 +17,21 @@ const DockerSetupPage = () => {
         title="Accessing and Using Syncra's Backend Tutorial"
         width="100%"
         height="100%"
-        referrerpolicy="strict-origin-when-cross-origin"
-        frameborder="0"
-        webkitallowfullscreen="webkitallowfullscreen"
-        mozallowfullscreen="mozallowfullscreen"
-        allowfullscreen="allowfullscreen"
+        referrerPolicy="strict-origin-when-cross-origin"
+        frameBorder="0"
       ></iframe>
+      <div className="flex justify-between absolute bottom-4 left-0 px-8 w-full">
+        <Link href="/" className="flex gap-2 items-center" title="Introduction">
+          <ArrowBigLeft /> Introduction
+        </Link>
+        <Link
+          href="/docker/update"
+          className="flex gap-2 items-center"
+          title="Update Syncra Backend"
+        >
+          Updating to Latest Syncra Backend <ArrowBigRight />
+        </Link>
+      </div>
     </div>
   );
 };

@@ -14,20 +14,22 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h1 className="text-2xl">Overview</h1>
+        <h1 className="text-2xl font-bold">Overview</h1>
         <p>
           This site serves as the way to learn more about how to run Syncra's
           backend.
         </p>
       </div>
+      <p>
+        Welcome to Syncra's Backend (Port 8080)!
+        <br />
+        In order to run the Syncra backend, you will need to have Docker
+        installed and our container running.
+      </p>
 
       <div>
-        <p>
-          In order to run the Syncra backend, you will need to have Docker
-          installed and our container running.
-        </p>
-        <div className="grid grid-cols-2 items-center">
-          <Card className="w-[450px]">
+        <div className="grid grid-cols-2 items-center gap-24 mt-4">
+          <Card>
             <CardHeader>
               <CardTitle>Setup and Run Syncra</CardTitle>
               <CardDescription>
@@ -42,7 +44,7 @@ export default function Home() {
               </span>
             </CardFooter>
           </Card>
-          <Card className="w-[450px]">
+          <Card>
             <CardHeader>
               <CardTitle>Update Syncra</CardTitle>
               <CardDescription>
