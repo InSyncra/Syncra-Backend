@@ -1,3 +1,4 @@
+import NavigateTo from "@/components/NavigateTo";
 import {
   Accordion,
   AccordionContent,
@@ -132,22 +133,14 @@ const DockerUpdatePage = () => {
         </CardContent>
       </Card>
 
-      <div className="flex justify-between absolute bottom-4 left-0 px-8 w-full">
-        <Link
-          href="/docker/setup"
-          className="flex gap-2 items-center"
-          title="Install and run Docker"
-        >
-          <ArrowBigLeft /> Setup and Run Syncra Backend
-        </Link>
-        <Link
-          href="/models"
-          className="flex gap-2 items-center"
-          title="Models Overview"
-        >
-          Models Overview <ArrowBigRight />
-        </Link>
-      </div>
+      <NavigateTo
+        backLink="/docker/setup"
+        backTitle="Install and run Docker"
+        backText="Setup and Run Syncra Backend"
+        nextLink="/models"
+        nextTitle="Models Overview"
+        nextText="Models Overview"
+      />
     </div>
   );
 };

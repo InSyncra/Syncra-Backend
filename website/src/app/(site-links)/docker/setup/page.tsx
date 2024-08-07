@@ -1,3 +1,4 @@
+import NavigateTo from "@/components/NavigateTo";
 import { ArrowBigLeft, ArrowBigRight } from "lucide-react";
 import Link from "next/link";
 
@@ -20,18 +21,14 @@ const DockerSetupPage = () => {
         referrerPolicy="strict-origin-when-cross-origin"
         frameBorder="0"
       ></iframe>
-      <div className="flex justify-between absolute bottom-4 left-0 px-8 w-full">
-        <Link href="/" className="flex gap-2 items-center" title="Introduction">
-          <ArrowBigLeft /> Introduction
-        </Link>
-        <Link
-          href="/docker/update"
-          className="flex gap-2 items-center"
-          title="Update Syncra Backend"
-        >
-          Updating to Latest Syncra Backend <ArrowBigRight />
-        </Link>
-      </div>
+      <NavigateTo
+        backLink="/"
+        backTitle="Introduction"
+        backText="Introduction"
+        nextLink="/docker/update"
+        nextTitle="Updating to the latest Syncra Backend"
+        nextText="Updating to the latest Syncra Backend"
+      />
     </div>
   );
 };

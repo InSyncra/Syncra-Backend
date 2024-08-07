@@ -1,3 +1,52 @@
+export const menuGroups = [
+  {
+    heading: "Getting Started",
+    items: [{ href: "/", label: "Introduction" }],
+  },
+  {
+    heading: "Docker Setup",
+    items: [
+      { href: "/docker/setup", label: "Setup and Run Syncra" },
+      { href: "/docker/update", label: "Updating the Syncra Backend" },
+    ],
+  },
+  {
+    heading: "Models & Enums Reference",
+    items: [
+      { href: "/models", label: "Models Overview" },
+      { href: "/models/models-vs-enums", label: "Models vs Enums" },
+    ],
+  },
+  {
+    heading: "Model Structures",
+    items: [
+      { href: "/models/user", label: "User" },
+      { href: "/models/project", label: "Project" },
+      { href: "/models/comment", label: "Comment" },
+    ],
+  },
+  {
+    heading: "API Reference",
+    items: [
+      { href: "/routes", label: "Routes" },
+      { href: "/api-versions", label: "API Versions" },
+    ],
+  },
+  {
+    heading: "Team Documentation",
+    items: [
+      { href: "/team-docs/code-of-conduct", label: "Code of Conduct" },
+      { href: "/team-docs/contributions", label: "Contributions" },
+      {
+        href: "/team-docs/submitting-features-and-bug-reports",
+        label: "Submitting Features and/or Bug Reports",
+      },
+      { href: "/team-docs/contact", label: "Contact" },
+      { href: "/team-docs/license", label: "License" },
+    ],
+  },
+];
+
 export const schemas = {
   user: {
     id: {

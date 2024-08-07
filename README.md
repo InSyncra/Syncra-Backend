@@ -12,24 +12,23 @@
 
 #### Documentation
 
-- [Database Models Reference](./documentation/DATABASE.md)
 - [Code of Conduct](./documentation/CODE_OF_CONDUCT.md)
 - [Contributing](./documentation/CONTRIBUTING.md)
 - [License](./documentation/LICENSE.md)
 
 ## Overview
 
-Welcome is the backend to Syncra. Only authorized users are permitted to clone and access this codebase. If you are a frontend developer, please refer to our routes and endpoints section.
+Welcome to the backend to Syncra. Only authorized users are permitted to clone and access this codebase. If you are a frontend developer, please check out how to run our Docker image. If you already have our latest Docker image running on your machine, please navigate to http://localhost:8080/ to checkout how to use our backend.
 
-As Syncra follows a Model, Views, Controller layout (MVC), the backend serves the Models and Controller portion. We allow the frontend to rely entirely on the views portion.
+As Syncra follows a Model, Views, Controller layout (MVC), the backend serves the `Models` and `Controllers` portion. We allow the frontend to rely entirely on the views portion. Most of the processes that involve processing user information (i.e. form submissions, edit profiles, records of project matches, etc.) will require the frontend team to send API requests to one of our many endpoints.
 
-The backend is built using Express.js and uses Firebase as the platform to handle all backend functionality. This includes Authentication, Database, server functions, etc.
+The backend is built using Express.js and uses Firebase as the platform to handle all backend functionality. This includes Authentication, server functions, cloud messaging, etc. Lastly, we use the serverless PostgreSQL database platform to securely store and manage user data.
 
-Frontend devs are provided RESTful API endpoints for interactivity with the database and receiving information need to display to users. Again, please refer to the routes and endpoints section for information on how to use our APIs.
+Frontend devs are provided RESTful API endpoints for interactivity with the database and receiving information need to display to users.
 
 ## Getting Started
 
-`For authorized devs only`
+`Authorized developers only`
 
 To get started, follow these steps:
 
@@ -48,7 +47,8 @@ To get started, follow these steps:
     ```
 
 2.  Install the dependencies: `npm install`
-3.  Make sure you are not working in the main branch by creating or checking out to the branch you've created
+3.  Run the following command afterward: `npx prisma generate` to make sure the database on your system is current.
+4.  Make sure you are not working in the main branch by creating or checking out to the branch you've created
 
     `Creating a new branch`
 
@@ -60,7 +60,7 @@ To get started, follow these steps:
 
     `Existing branch`
 
-        In your terminal type:
+    In your terminal type:
 
     ```bash
     git checkout <Your existing branch name>
@@ -68,7 +68,7 @@ To get started, follow these steps:
 
     Always be sure you are not working in the main branch!
 
-4.  Start the development server: `npm run dev`
+5.  Start the development server: `npm run dev`
 
 From there, you can now make the necessary changes.
 
@@ -78,27 +78,13 @@ From there, you can now make the necessary changes.
 
 The backend integrates with Firebase for database and authentication services. Firebase configuration is stored in the `firebase.config.js` file.
 
-### Routes & Endpoints
+### Prisma Integration
 
-The backend provides the following endpoints:
-
-<!-- TODO: Ruben and Tyler to add endpoints -->
-
-### Database & Models
-
-We are using Postgres via Neon to serve as our production database.
-
-#### Models
-
-View all models and info in the [`models` readme](./documentation/DATABASE.md).
+The current database is Neon, a serverless PostgreSQL database. However, we will execute functions via Prisma. Prisma is an ORM that serves as the middle step between creating and managing data while allowing security and abstraction.
 
 # Changes
 
 `v1.0.0`: Initial backend setup
-
-## Contributing
-
-If you would like to contribute to the Backend, please follow the guidelines in the contributing.md file.
 
 ## Contact
 

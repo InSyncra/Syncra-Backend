@@ -1,8 +1,7 @@
+import NavigateTo from "@/components/NavigateTo";
 import React from "react";
 
-type Props = {};
-
-const ModelsOverviewPage = (props: Props) => {
+const ModelsOverviewPage = () => {
   return (
     <div className="flex flex-col gap-4">
       <div>
@@ -41,6 +40,15 @@ const ModelsOverviewPage = (props: Props) => {
         can see and access every property confidently. Refer to each data model
         for specific details on what will be returned..
       </p>
+
+      <NavigateTo
+        backLink="/docker/update"
+        backTitle="Update Syncra Backend"
+        backText="Updating the Syncra Backend"
+        nextLink="/models/models-vs-enums"
+        nextTitle="Models vs. Enums"
+        nextText="Models vs. Enums"
+      />
     </div>
   );
 };

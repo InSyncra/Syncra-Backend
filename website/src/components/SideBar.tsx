@@ -1,28 +1,22 @@
 "use client";
-
 import React from "react";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "./ui/accordion";
-import {
   Command,
-  CommandDialog,
-  CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
   CommandSeparator,
-  CommandShortcut,
 } from "@/components/ui/command";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { menuGroups } from "@/app/constants";
 
 const SideBar = () => {
+  const pathname = usePathname();
+  console.log(pathname);
+
   return (
-    <aside className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 shadow-md">
+    <aside className="flex flex-col w-[300px] min-w-[300px] border-r min-h-screen p-4 shadow-md sticky top-0">
       <Link href="/" className="text-2xl flex gap=2">
         <span className="text-2xl font-bold uppercase">Syncra</span>
         <span className="text-sm italic">Backend</span>
@@ -31,32 +25,22 @@ const SideBar = () => {
       <div className="grow">
         <Command className="overflow-visible">
           <CommandList className="overflow-visible">
-            <CommandGroup heading="Getting Started">
-              <CommandItem>Introduction</CommandItem>
-              <CommandGroup heading="Docker Setup">
-                <CommandItem>Setup and Run Syncra</CommandItem>
-                <CommandItem>Updating the Syncra Backend</CommandItem>
-              </CommandGroup>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroup heading="Models Reference">
-              <CommandItem>Models Overview</CommandItem>
-              <CommandItem>Models vs Enum</CommandItem>
-              <CommandItem>Model Structures</CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroup heading="API Reference">
-              <CommandItem>Routes</CommandItem>
-              <CommandItem>API Versions</CommandItem>
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroup heading="Team Documentation">
-              <CommandItem>Code of Conduct</CommandItem>
-              <CommandItem>Contributions</CommandItem>
-              <CommandItem>Submitting Features and/or Bug Reports</CommandItem>
-              <CommandItem>Contact</CommandItem>
-              <CommandItem>License</CommandItem>
-            </CommandGroup>
+            {menuGroups.map((group, index) => (
+              <React.Fragment key={index}>
+                <CommandGroup heading={group.heading}>
+                  {group.items.map((item, itemIndex) => (
+                    <Link
+                      href={item.href}
+                      key={itemIndex}
+                      className={pathname === item.href ? "bg-gray-400" : ""}
+                    >
+                      <CommandItem>{item.label}</CommandItem>
+                    </Link>
+                  ))}
+                </CommandGroup>
+                <CommandSeparator />
+              </React.Fragment>
+            ))}
           </CommandList>
         </Command>
       </div>
