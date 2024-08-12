@@ -85,6 +85,7 @@ The current database is Neon, a serverless PostgreSQL database. However, we will
 # Changes
 
 `v1.0.0`: Initial backend setup
+`v1.0.1`: Test backend setup/Multi-container ports created
 
 ## Contact
 
