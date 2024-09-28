@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -7,8 +8,8 @@ const { initializeApp, cert } = require("firebase-admin/app");
 const { FirebaseAuthError } = require("firebase-admin/auth");
 const { FirebaseFirestoreError } = require("firebase-admin/firestore");
 const serviceAccountKey = require("./config/serviceAccountKey.json");
-const { environment } = require("./config");
-
+const { environment, port, url } = require("./config");
+const { validateUserInput } = require("./utils/validation");
 // Initialize Firebase
 initializeApp({
   credential: cert(serviceAccountKey),
@@ -45,7 +46,7 @@ app.use((_req, _res, next) => {
   next(err);
 });
 
-// Firebase/Validation Errors
+// Firebase Errors
 app.use((err, _req, _res, next) => {
   if (
     err instanceof FirebaseAuthError ||
@@ -54,9 +55,9 @@ app.use((err, _req, _res, next) => {
     err.title = "Firebase Error";
     err.status = 400;
     err.errors = { message: err.code };
-    next(err);
+    return next(err);
   } else {
-    next(err);
+    return next(err);
   }
 });
 
@@ -77,4 +78,8 @@ app.use((err, _req, res, _next) => {
     errorRes.stack = err.stack;
     return res.json(errorRes);
   }
+});
+
+app.listen(port, () => {
+  console.log(`Server now listening...visit ${url}/`);
 });
