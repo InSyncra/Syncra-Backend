@@ -1,6 +1,3 @@
-// config file to read, load, and export environment variables
-export default {
-  dbConfig: process.env.DB_FILE,
-  port: process.env.PORT,
+module.exports = {
   environment: process.env.NODE_ENV || "development",
 };

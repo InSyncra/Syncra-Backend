@@ -7,8 +7,6 @@
  * This file should only be modified by authorized devs
  */
 
-import express from "express";
+const webhook = require("express").Router();
 
-const router = express.Router();
-
-export default router;
+module.exports = webhook;
