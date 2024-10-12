@@ -2,3 +2,4 @@
 *.env*
 *serviceAccountKey.json
 *.rest
+*syncra-test.db
