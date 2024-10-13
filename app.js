@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const { environment, port, frontendUrl, sessionSecret } = require("./config");
 const session = require("express-session");
+const apiRoutes = require("./routes");
 
 const isProduction = environment === "production";
 
@@ -43,11 +44,18 @@ app.use(
 );
 
 // API routes
+app.use("/api", apiRoutes);
 
 // ===========
 // TODO: Error Handling forwarded from route next() functions
 // ===========
 
 app.listen(port, () => {
-  console.log(`Server now listening...visit ${url}/`);
+  console.log("\n\n***********************************");
+  console.log("***********************************");
+  console.log(
+    `Server is now listening on port ${port}. Test it out on http://localhost:${port}/`
+  );
+  console.log("***********************************");
+  console.log("***********************************\n\n");
 });
