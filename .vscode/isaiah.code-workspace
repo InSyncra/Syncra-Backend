@@ -1,0 +1,20 @@
+{
+    "folders": [
+        {
+            "name": "🖥️ apps",
+            "path": "../apps"
+        },
+        {
+            "name": " 📂 root",
+            "path": ".."
+        },
+        {
+            "name": "🏃🏾‍♂️‍➡️ actions",
+            "path": "../.github/workflows"
+        },
+        {
+            "name": "🌐 workspaces",
+            "path": "../.vscode"
+        }
+    ]
+}
