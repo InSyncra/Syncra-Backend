@@ -7,8 +7,8 @@ Welcome to the Syncra backend! This project is designed for authorized users to 
 - **ORM**: Sequelize
 - **Containerization**: Docker
 - **Build Tool**: Bun
-- **Documentation**: VitePress
-- **DevOps Tools**: GitHub Actions, Prettier, ESLint
+- **Documentation**: Docusaurus
+- **DevOps Tools**: GitHub Actions, Prettier, ESLint, VsCode Workspaces
 
 ## Cloning and Setup
 
@@ -16,12 +16,12 @@ To clone the repository, you can use either HTTPS or SSH:
 
 ### Cloning via HTTPS
 ```bash
-git clone https://github.com/Syncra-Organization/Syncra-Backend.git
+git clone https://github.com/Syncra-Organization/Syncra-Backend.git [optional folder name]
 ```
 
 ### Cloning via SSH
 ```bash
-git clone git@github.com:InSyncra/Syncra-Backend.git
+git clone git@github.com:InSyncra/Syncra-Backend.git [optional folder name]
 ```
 
 ### Then install the depencies
