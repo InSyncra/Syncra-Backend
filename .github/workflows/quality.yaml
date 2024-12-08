@@ -1,0 +1,49 @@
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  linter-and-formatter:
+    name: Linter and Formatter 
+    strategy:
+      matrix:
+        node: [18.x, 20.x]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+      
+      - run: bun install --frozen-lockfile
+      - run: bun run format
+      - run: bun run lint
+      
+      - name: Run Linter
+        id: linter
+        run: |
+          bun run lint:check
+        continue-on-error: true
+
+      - name: Run Formatter
+        id: formatter
+        run: |
+          bun run format:check
+        continue-on-error: true
+      
+      - name: Run report of results
+        if: always()
+        run: |
+          echo "Linter result: ${{ steps.linter.outcome }}"
+          echo "Formatter result: ${{ steps.formatter.outcome }}"
