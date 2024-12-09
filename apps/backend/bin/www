@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+import dotenv from "dotenv";
+dotenv.config();
+import config from "../config/index.js";
+import app from "../src/app.js";
+
+const { port } = config;
+
+app.listen(port, () => {
+    console.log("\n\n***********************************");
+    console.log("***********************************");
+    console.log(`Server is now listening on port ${port}. Test it out on http://localhost:${port}/`);
+    console.log("***********************************");
+    console.log("***********************************\n\n");
+});
