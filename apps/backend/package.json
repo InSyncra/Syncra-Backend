@@ -1,18 +1,14 @@
 {
     "name": "backend",
     "version": "1.0.0",
-    "main": "index.js",
     "scripts": {
         "sequelize": "sequelize",
         "sequelize-cli": "sequelize-cli",
         "start": "per-env",
         "start:development": "nodemon bin/www",
         "start:production": "node bin/www",
-        "create-model": "bunx sequelize model:generate --",
-        "migrate": "bunx dotenv sequelize db:migrate",
-        "migrate:undo": "bunx dotenv sequelize db:migrate:undo:all",
-        "seed": "bunx dotenv sequelize db:seed:all",
-        "db:reset": "rm -rf db/dev.db && bunx dotenv sequelize db:migrate && bunx dotenv sequelize db:seed:all"
+        "migrate": "bunx prisma migrate dev",
+        "studio": "bunx prisma studio"
     },
     "type": "module",
     "keywords": [],

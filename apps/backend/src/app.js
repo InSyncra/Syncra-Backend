@@ -4,10 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import config from "../config/index.js";
 import routes from "./routes/index.js";
-
-const isProduction = config.environment === "production";
 
 const app = express();
 
