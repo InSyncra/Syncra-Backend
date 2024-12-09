@@ -4,7 +4,7 @@ Welcome to the Syncra backend! This project is designed for authorized users to 
 ## 🛠️ Technologies Used
 - **Backend Framework**: Express.js
 - **Database**: PostgreSQL
-- **ORM**: Sequelize
+- **ORM**: Prisma
 - **Containerization**: Docker
 - **Build Tool**: Bun
 - **Documentation**: Docusaurus
