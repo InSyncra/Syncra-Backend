@@ -3,10 +3,10 @@ export default [
         ignores: ["**/node_modules/", "**/dist/", "**/*.json"],
         rules: {
             semi: "error",
-            "prefer-const": "error",
+            "prefer-const": "warn",
             "no-var": "error",
-            "no-console": "warn",
-            "no-unused-vars": "warn",
+            "no-console": "error",
+            "no-unused-vars": "error",
             "no-restricted-syntax": "error",
         },
     },

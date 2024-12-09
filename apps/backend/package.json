@@ -1,18 +1,14 @@
 {
     "name": "backend",
     "version": "1.0.0",
-    "main": "index.js",
     "scripts": {
         "sequelize": "sequelize",
         "sequelize-cli": "sequelize-cli",
         "start": "per-env",
         "start:development": "nodemon bin/www",
         "start:production": "node bin/www",
-        "create-model": "bunx sequelize model:generate --",
-        "migrate": "bunx dotenv sequelize db:migrate",
-        "migrate:undo": "bunx dotenv sequelize db:migrate:undo:all",
-        "seed": "bunx dotenv sequelize db:seed:all",
-        "db:reset": "rm -rf db/dev.db && bunx dotenv sequelize db:migrate && bunx dotenv sequelize db:seed:all"
+        "migrate": "bunx prisma migrate dev",
+        "studio": "bunx prisma studio"
     },
     "type": "module",
     "keywords": [],
@@ -20,6 +16,7 @@
     "license": "ISC",
     "description": "",
     "dependencies": {
+        "@prisma/client": "^6.0.1",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.20.3",
         "cookie-parser": "^1.4.7",
@@ -33,12 +30,9 @@
         "morgan": "^1.10.0",
         "per-env": "^1.0.2",
         "pg": "^8.13.1",
-        "sequelize": "^6.37.5",
-        "sequelize-cli": "^6.6.2"
+        "prisma": "^6.0.1"
     },
     "devDependencies": {
-        "dotenv-cli": "^7.4.4",
-        "nodemon": "^3.1.7",
-        "sqlite3": "^5.1.7"
+        "nodemon": "^3.1.7"
     }
 }
