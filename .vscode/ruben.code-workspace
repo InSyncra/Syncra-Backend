@@ -2,11 +2,11 @@
     "folders": [
         {
             "name": "🐍 backend",
-            "path": "../apps/backend"
+            "path": "../apps/backend",
         },
         {
             "name": " 📂 root",
-            "path": ".."
+            "path": "..",
         },
-    ]
+    ],
 }

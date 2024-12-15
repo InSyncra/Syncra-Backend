@@ -2,19 +2,19 @@
     "folders": [
         {
             "name": "🖥️ apps",
-            "path": "../apps"
+            "path": "../apps",
         },
         {
             "name": " 📂 root",
-            "path": ".."
+            "path": "..",
         },
         {
             "name": "🏃🏾‍♂️‍➡️ actions",
-            "path": "../.github/workflows"
+            "path": "../.github/workflows",
         },
         {
             "name": "🌐 workspaces",
-            "path": "../.vscode"
-        }
-    ]
+            "path": "../.vscode",
+        },
+    ],
 }
