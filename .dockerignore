@@ -1,0 +1,11 @@
+**/*.env
+**/.gitignore
+**/Dockerfile
+**/README.md
+**/documentation/
+**/notes.md
+**/.turbo/
+**/node_modules/
+.github/
+.git
+.vscode

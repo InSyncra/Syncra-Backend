@@ -4,10 +4,7 @@ dist
 
 **/.git*
 **/node_modules/
-**/*.html
-**/*.md
 
-**/*.json
 bun.lockb
 **/*.config*
 **/*.test*

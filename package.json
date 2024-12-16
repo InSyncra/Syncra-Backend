@@ -1,37 +1,38 @@
 {
-  "name": "backend-setup",
-  "devDependencies": {
-    "@types/bun": "latest",
-    "eslint": "^9.16.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
-    "prettier": "^3.4.2",
-    "supertest": "^7.0.0"
-  },
-  "type": "module",
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
-  "license": "ISC",
-  "private": true,
-  "scripts": {
-    "test": "bun test",
-    "test:watch": "bun test --watch",
-    "format:check": "prettier --check .",
-    "format": "prettier --write .",
-    "lint": "eslint . --fix",
-    "lint:check": "eslint ."
-  },
-  "workspaces": [
-    "apps/*"
-  ],
-  "prettier": {
-    "printWidth": 120,
-    "trailingComma": "all",
-    "tabWidth": 4
-  },
-  "trustedDependencies": [
-    "es5-ext"
-  ]
+    "name": "backend-setup",
+    "devDependencies": {
+        "@types/bun": "latest",
+        "eslint": "^9.17.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "prettier": "^3.4.2",
+        "supertest": "^7.0.0",
+        "turbo": "^2.3.3"
+    },
+    "type": "module",
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
+    "license": "ISC",
+    "private": true,
+    "scripts": {
+        "test": "turbo run test",
+        "test:watch": "turbo run test --watch",
+        "format:check": "prettier --check .",
+        "format": "prettier --write .",
+        "lint": "eslint . --fix",
+        "lint:check": "eslint .",
+        "build": "turbo run build",
+        "start": "turbo run start"
+    },
+    "prettier": {
+        "printWidth": 120,
+        "trailingComma": "all",
+        "tabWidth": 4
+    },
+    "trustedDependencies": [
+        "es5-ext"
+    ],
+    "packageManager": "pnpm@9.15.0"
 }
