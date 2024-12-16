@@ -1,0 +1,40 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: apps/backend/Dockerfile
+        ports:
+            - 8000:8000
+        environment:
+            - DATABASE_URL=${DATABASE_URL}
+            - NODE_ENV=production
+        depends_on:
+            postgres:
+                condition: service_healthy
+        networks:
+            - syncra
+
+    postgres:
+        image: postgres:latest
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=${POSTGRES_USER:-syncra}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-admin}
+            - POSTGRES_DB=${POSTGRES_DB:-syncra}
+            - POSTGRES_INITDB_ARGS=--data-checksums
+        volumes:
+            - syncra-data:/var/lib/postgresql/data
+        networks:
+            - syncra
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U syncra"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+
+networks:
+    syncra:
+
+volumes:
+    syncra-data:

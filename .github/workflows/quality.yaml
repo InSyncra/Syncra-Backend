@@ -21,27 +21,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
-      - uses: actions/setup-node@v3
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: ${{ matrix.node }}
+          version: 9.15.0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+    
+      - name: Install dependencies
+        run: pnpm install
       
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
-      
-      - run: bun install --frozen-lockfile
-      - run: bun run format
-      - run: bun run lint
-      
-      - name: Run Linter
+      - name: Run Linter Check
         id: linter
         run: |
-          bun run lint:check
+          pnpm run lint:check
         continue-on-error: true
 
-      - name: Run Formatter
+      - name: Run Formatter Check
         id: formatter
         run: |
-          bun run format:check
+          pnpm run format:check
         continue-on-error: true
       
       - name: Run report of results

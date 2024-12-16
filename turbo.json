@@ -1,0 +1,22 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "ui": "tui",
+    "globalDependencies": [
+        "turbo",
+        "eslint",
+        "prettier",
+        "eslint-plugin-prettier",
+        "eslint-config-prettier",
+        "**/package.json"
+    ],
+    "tasks": {
+        "build": {
+            "outputs": ["dist/**"],
+            "dependsOn": ["^build"]
+        },
+        "start": {
+            "persistent": true,
+            "cache": false
+        }
+    }
+}
