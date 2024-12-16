@@ -2,7 +2,13 @@
     "$schema": "https://turbo.build/schema.json",
     "ui": "tui",
     "globalDependencies": [
-        "turbo", "eslint", "prettier", "eslint-plugin-prettier", "eslint-config-prettier", "**/package.json"],
+        "turbo",
+        "eslint",
+        "prettier",
+        "eslint-plugin-prettier",
+        "eslint-config-prettier",
+        "**/package.json"
+    ],
     "tasks": {
         "build": {
             "outputs": ["dist/**"],

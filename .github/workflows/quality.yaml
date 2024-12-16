@@ -24,24 +24,27 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
+          cache: 'pnpm'
       
-      - name: Install bun
-        uses: oven-sh/setup-bun@v2
+      - name: Install pnpm
+        run: |
+          npm install -g pnpm
+          echo "::add-path::$(pnpm bin)" # Add pnpm binaries to PATH
       
-      - run: bun install --frozen-lockfile
-      - run: bun run format
-      - run: bun run lint
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run format
+      - run: pnpm run lint
       
       - name: Run Linter
         id: linter
         run: |
-          bun run lint:check
+          pnpm run lint:check
         continue-on-error: true
 
       - name: Run Formatter
         id: formatter
         run: |
-          bun run format:check
+          pnpm run format:check
         continue-on-error: true
       
       - name: Run report of results
