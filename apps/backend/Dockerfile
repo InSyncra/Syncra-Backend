@@ -54,10 +54,8 @@ WORKDIR /app/packages/database
 # Ensure correct permissions
 RUN chown -R nodeuser:nodegroup /app
 
-ARG DATABASE_URL
 # Set environment variables
 ENV NODE_ENV=production
-ENV DATABASE_URL=$DATABASE_URL
 
 # Run prisma migrations
 RUN npx prisma generate 
@@ -75,4 +73,4 @@ EXPOSE 8000
 USER nodeuser
 
 # Command to run the application
-CMD ["sh", "-c", "cd /app/packages/database && npx prisma migrate deploy && cd /app/apps/backend && pnpm start"]
+CMD ["pnpm", "start"]
