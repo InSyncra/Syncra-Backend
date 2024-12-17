@@ -16,5 +16,64 @@ datasource db {
 
 model User {
   id String @id @default(cuid())
+  firstName String
+  lastName String
+  nickname String?
   username String @unique
+  email String @unique
+  hashedPassword String
+  birthdate String
+  profession String?
+  skillLevel String?
+  avatar String?
+  bio String?
+  githubUrl String?
+  pastProjectLinks String[]
+  projects Project[]
+  userPrefs UserPrefs @relation(fields: [userPrefsId], references: [id])
+  userPrefsId String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserPrefs {
+  id String @id @default(cuid())
+  user User?
+  networkPrefs String[]
+  conversationPrefs String[]
+  prefersEmailMarketing Boolean @default(true)
+  allowsLocation Boolean @default(false)
+  agreesToPrivacyPolicy Boolean @default(false)
+  agreesToTerms Boolean @default(false)
+  showGithubUrl Boolean @default(true)
+  showProfile Boolean @default(true)
+  galleryPermissions Boolean
+  hardwarePermissions Boolean
+  agreesToCOPPARegulations Boolean
+}
+
+model Project {
+  id String @id @default(cuid())
+  ownerId String
+  owner User @relation(fields: [ownerId], references: [id])
+  title String @db.VarChar(100)
+  description String @db.VarChar(500)
+  thumbnailUrl String?
+  githubUrl String?
+  viewsCount Int @default(0)
+  likesCount Int @default(0)
+  interestsCount Int @default(0)
+  isPublic Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id String @id @default(cuid())
+  userId String
+  projectId String
+  body String @db.VarChar(10000)
+  likes Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
