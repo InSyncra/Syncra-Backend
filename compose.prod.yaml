@@ -1,37 +1,61 @@
 services:
+    migration:
+        image: izzy850/syncra-backend:latest
+        command: ["pnpm", "--filter", "@repo/db", "db:migrate:deploy"]
+        environment:
+            - DATABASE_URL=${DATABASE_URL}
+        depends_on:
+            - postgres
+        networks:
+            - syncra
+    pgadmin:
+        image: dpage/pgadmin4
+        ports:
+          - 5050:80
+          - 5051:443
+        depends_on:
+            - postgres
+        environment:
+            - PGADMIN_DEFAULT_EMAIL=${PGA_EMAIL}
+            - PGADMIN_DEFAULT_PASSWORD=${PGA_PASSWORD}
+        networks:
+            - syncra
     app:
-        build:
-            context: .
-            dockerfile: apps/backend/Dockerfile
+        image: izzy850/syncra-backend:latest
         ports:
             - 8000:8000
         environment:
             - DATABASE_URL=${DATABASE_URL}
             - NODE_ENV=production
+        restart: unless-stopped
         depends_on:
             postgres:
                 condition: service_healthy
+            migration:
+                condition: service_completed_successfully
         networks:
             - syncra
-
+    
     postgres:
         image: postgres:latest
         ports:
             - 5432:5432
         environment:
-            - POSTGRES_USER=${POSTGRES_USER:-syncra}
-            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-admin}
-            - POSTGRES_DB=${POSTGRES_DB:-syncra}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
             - POSTGRES_INITDB_ARGS=--data-checksums
         volumes:
             - syncra-data:/var/lib/postgresql/data
         networks:
             - syncra
+        restart: unless-stopped
         healthcheck:
             test: ["CMD-SHELL", "pg_isready -U syncra"]
             interval: 5s
             timeout: 5s
             retries: 5
+
 
 networks:
     syncra:

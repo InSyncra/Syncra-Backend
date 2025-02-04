@@ -7,6 +7,7 @@
         "db:generate": "pnpx prisma generate",
         "db:push": "pnpx prisma db push",
         "db:migrate:dev": "pnpx prisma migrate dev",
+        "db:migrate:prod": "prisma migrate deploy",
         "start": "pnpx prisma studio"
     },
     "dependencies": {
