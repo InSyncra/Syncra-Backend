@@ -131,4 +131,34 @@ userRoutes.patch("/account/:id", async (req, res) => {
 });
 
 
+// delete user account
+userRoutes.delete("/account/:id", async (req, res) => {
+    const { id } = req.params;
+    const userId = parseInt(id);
 
+    // Validate that id is a number
+    if (isNaN(userId)) {
+        return res.status(400).json({ error: "Invalid user ID" });
+    }
+
+    try {
+        // Check if the user exists
+        const existingUser = await prisma.user.findUnique({
+            where: { id: userId },
+        });
+
+        if (!existingUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Delete the user from the database
+        await prisma.user.delete({
+            where: { id: userId },
+        });
+
+        res.status(204).end();
+    } catch (error) {
+        console.error("Error deleting user:", error);
+        res.status(500).json({ error: "An error occurred while deleting the user account" });
+    }
+});
