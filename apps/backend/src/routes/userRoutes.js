@@ -83,3 +83,52 @@ userRoutes.get("/account/:id", async (req, res) => {
 
     }
 })
+
+// update user account
+userRoutes.patch("/account/:id", async (req, res) => {
+    const { id } = req.params;
+    const userId = parseInt(id);
+
+    // Validate that id is a number
+    if (isNaN(userId)) {
+        return res.status(400).json({ error: "Invalid user ID" });
+    }
+
+    try {
+        // Check if the user exists
+        const existingUser = await prisma.user.findUnique({
+            where: { id: userId },
+        });
+
+        if (!existingUser) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Extract only the fields that are provided in the request body
+        const updateData = {};
+        for (const key in req.body) {
+            if (req.body[key] !== undefined) {
+                updateData[key] = req.body[key];
+            }
+        }
+
+        // If no valid fields are provided, return an error
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ error: "No valid fields provided for update" });
+        }
+
+        // Update the user in the database with only the provided fields
+        const updatedUser = await prisma.user.update({
+            where: { id: userId },
+            data: updateData,
+        });
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(500).json({ error: "An error occurred while updating the user account" });
+    }
+});
+
+
+
