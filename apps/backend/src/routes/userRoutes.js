@@ -57,4 +57,29 @@ userRoutes.post("/signup", async (req, res) => {
 
 });
 
+// get user account
+userRoutes.get("/account/:id", async (req, res) => {
+    // get the user id from the request parameters
+    const { id } = req.params;
 
+    // try catch block to handle errors
+    try {
+        // get the user from the db
+        const user = await prisma.user.findUnique({
+            where: {
+                id: parseInt(id),
+            },
+        })
+        // if the user is not found, send a 404 status code
+        if (!user) {
+            res.status(404).send("User not found");
+            return;
+        }
+        // respond with the user data
+        res.json(user);
+    } catch(error) {
+        console.error(error);
+        res.status(500).send("An error occurred while getting the user account");
+
+    }
+})
