@@ -47,7 +47,7 @@ userRoutes.post("/signup", async (req, res) => {
             },
         });
         // send the user data as a response
-        res.json(user);
+        res.status(201).json(user);
     }
     // catch any errors and send a 500 status code with an error message
     catch (error) {
@@ -58,7 +58,7 @@ userRoutes.post("/signup", async (req, res) => {
 });
 
 // get user account
-userRoutes.get("/account/:id", async (req, res) => {
+userRoutes.get("/accounts/:id", async (req, res) => {
     // get the user id from the request parameters
     const { id } = req.params;
 
@@ -67,7 +67,7 @@ userRoutes.get("/account/:id", async (req, res) => {
         // get the user from the db
         const user = await prisma.user.findUnique({
             where: {
-                id: parseInt(id),
+                id: id,
             },
         })
         // if the user is not found, send a 404 status code
@@ -85,14 +85,11 @@ userRoutes.get("/account/:id", async (req, res) => {
 })
 
 // update user account
-userRoutes.patch("/account/:id", async (req, res) => {
+userRoutes.put("/accounts/:id", async (req, res) => {
     const { id } = req.params;
-    const userId = parseInt(id);
+    const userId = id;
 
-    // Validate that id is a number
-    if (isNaN(userId)) {
-        return res.status(400).json({ error: "Invalid user ID" });
-    }
+
 
     try {
         // Check if the user exists
@@ -134,12 +131,9 @@ userRoutes.patch("/account/:id", async (req, res) => {
 // delete user account
 userRoutes.delete("/account/:id", async (req, res) => {
     const { id } = req.params;
-    const userId = parseInt(id);
+    const userId = id;
 
-    // Validate that id is a number
-    if (isNaN(userId)) {
-        return res.status(400).json({ error: "Invalid user ID" });
-    }
+
 
     try {
         // Check if the user exists
@@ -156,7 +150,7 @@ userRoutes.delete("/account/:id", async (req, res) => {
             where: { id: userId },
         });
 
-        res.status(204).end();
+        res.status(204).json({message: "account deleted successfully"});
     } catch (error) {
         console.error("Error deleting user:", error);
         res.status(500).json({ error: "An error occurred while deleting the user account" });
