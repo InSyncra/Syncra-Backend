@@ -1,6 +1,7 @@
 {
 	"name": "backend-setup",
 	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
 		"@types/bun": "latest",
 		"turbo": "^2.3.3"
 	},
@@ -16,19 +17,12 @@
 	"license": "ISC",
 	"private": true,
 	"scripts": {
-		"test": "turbo run test",
-		"test:watch": "turbo run test --watch",
-		"format:check": "prettier --check .",
-		"format": "prettier --write .",
-		"lint": "eslint . --fix",
-		"lint:check": "eslint .",
+		"format:check": "turbo run format:check",
+		"format": "turbo run format",
+		"lint": "turbo run lint",
+		"lint:check": "turbo run lint:check",
 		"build": "turbo run build",
 		"start": "turbo run start"
-	},
-	"prettier": {
-		"printWidth": 120,
-		"trailingComma": "all",
-		"tabWidth": 4
 	},
 	"trustedDependencies": ["es5-ext"],
 	"packageManager": "pnpm@10.4.0"
