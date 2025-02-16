@@ -22,6 +22,8 @@
 		"format": "turbo run format",
 		"lint": "turbo run lint",
 		"lint:check": "turbo run lint:check",
+		"check": "turbo run check",
+		"check-style": "turbo run check-style",
 		"build": "turbo run build",
 		"start": "turbo run start"
 	},

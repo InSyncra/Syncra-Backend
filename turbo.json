@@ -32,6 +32,9 @@
 		},
 		"check-style": {
 			"dependsOn": ["^check-style"]
+		},
+		"check": {
+			"dependsOn": ["^check"]
 		}
 	}
 }
