@@ -1,63 +1,103 @@
-# Syncra Backend
+# Welcome to the Syncra Backend!
+This repo is for authorized developers to access the and develop the Syncra API.
 
-Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.
+## Current Technology
+- Express: Backend Framework
+- PostgreSQL: Database
+- Prisma: Type-safe ORM for manipulating data
+- Docker: Containerization for consistent development | mock production environment
 
-## 🛠️ Technologies Used
+## Setup
+The Syncra Backend follows the [Monorepo layout](https://medium.com/@avicsebooks/monorepo-2edb5a67517d), which means at any point there will be multiple repositories within the same project repo. Make sure you are installing necessary dependencies for your given service/repo.  
 
-- **Backend Framework**: Express.js
-- **Database**: PostgreSQL
-- **ORM**: Prisma
-- **Containerization**: Docker
-- **Build Tool**: Bun
-- **Documentation**: Docusaurus
-- **DevOps Tools**: GitHub Actions, Prettier, ESLint, VsCode Workspaces
+### Prerequisites
+* Pnpm (package manager) version 9.15 or higher
+* Node version 18 or higher
+* npm version 8 or higher
+* Docker version 22 or higher
+* Git version 2.34.1 or higher
 
-## Cloning and Setup
+### Install & Run the Syncra Backend
+1. Clone the backend repository using either of the following command:
+    ```bash
+    # via HTTPS:
+    git clone https://github.com/InSyncra/Syncra-Backend.git <optional custom folder name>
+    ```
+    ```bash
+    # via SSH:
+    git clone git@github.com:InSyncra/Syncra-Backend.git <optional custom folder
+    ```
 
-To clone the repository, you can use either HTTPS or SSH:
+2. Open the cloned repository and install everything from the root repository
+    ```bash
+    pnpm install
+    ```
 
-### Cloning via HTTPS
+3. Create a `.env` file in the following directories - There are `.env.example` files provided for you to know what to fill in:
+    - `/` _(the root directory)_ 
+    - `/apps/backend`
+    - `/packages/database`
 
+3. To run all services, including the database and prisma, run `pnpm start` while still cd'd in the root directory.
+
+4. Navigate to the specific repo you want to work on and begin development.
+    - 4.1: For a cleaner development environment, navigate to the `.vscode` folder and click the workspace with your name.
+    - 4.2: Click _`'Open workspace'`_ to reopen VSCode in your workspace
+
+5. You will need to _generate_ the Prisma database schema by running the following command in the `/packages/database` directory:
+    ```bash
+    pnpm db:generate  
+    ```
+
+## Running the database
+There are 3 ways to interact with the data in your database:
+
+1. **Prisma Studio** (Recommended): When you run `pnpm start` in the root directory, your browser will pop up with Prisma Studio, as it is set to run with this command. You can view and manipulate your database and data in realtime here or anytime by navigating to [http://localhost:5555](http://localhost:5555).
+
+2. **PGAdmin**: Also run on `pnpm start`, the development docker compose file runs the PGAdmin client on [http://localhost:5556](http://localhost:5556). PGAdmin allows for more granular control using SQL commands
+    - Upon first run, you will need to setup your database for PGAdmin. Login using these credentials
+        - email: `user@syncra.com`
+        - password: `password`
+    - Then, right click on `Servers` in the Object Explorer column. Select `Register Server...` and fill in the following:
+        #### General Tab
+        #### Connection Tab
+            - Host: `postgres`
+            - Port: 5432
+            - Username: `postgres`
+            - Password: `postgres`
+            - Save password ? : yes
+        - Then click _Save_
+    - If successful, Click Syncra, Database, Schemas, then syncra_dev_db, then Tables. You should see all your tables here.
+    - Select the table you want to view then press `Alt/Option + Shift + V`
+    - From here, you can view, edit, and delete data in your database via the SQL Commands script runner.
+
+3. **Postgres CLI**: Since Postgres is ran via Docker, you can access the CLI by running `docker exec -it postgres-syncra psql -U postgres`. From here, you can run Postgres and SQL commands to view and manipulate your database.
+
+* _If any database method didn't work, make sure you have run step 5 in [Install & Run the Syncra Backend](#install--run-the-syncra-backend)_
+
+## Making Commits
+When making commits, please follow the following guidelines:
+- **Use meaningful commit messages**: When making a commit, please make sure to include a meaningful commit
+message. This will help other developers understand the changes you made and why you made them.
+- **Use the imperative mood**: When writing a commit message, use the imperative mood. For example:
+    ```bash
+    `fix: update user schema to include new field`
+    ``` 
+
+    instead of 
+
+    ```bash
+    `updated user schema to include new field`
+    ````
+    
+_Refer to the Syncra [Git Guidelines] for detailed information on commit messages and Syncra workflow._
+
+### Pre-Commit
+Before making a commit, please run the following command in the root directory:
 ```bash
-git clone https://github.com/Syncra-Organization/Syncra-Backend.git [optional folder name]
+pnpm format
+pnpm lint
 ```
+This will ensure that your code is formatted correctly and that there are no linting errors. If there are any issues, they will be reported and you will need to fix them before making a commit.
 
-### Cloning via SSH
-
-```bash
-git clone git@github.com:InSyncra/Syncra-Backend.git [optional folder name]
-```
-
-### Then install the depencies
-
-We are using Bun as the package manager. Make sure [Bun is installed on your machine](https://bun.sh/)
-
-```bash
-bun install
-```
-
-### Check out the documentation provided for more configuration and setup
-
-## Contributing
-
-We welcome contributions! To contribute to the project, please follow these steps:
-
-1. Clone the repository.
-2. Create a new branch for your feature or bug fix from the **updated dev branch**.
-3. Make your changes and commit them.
-4. Push your changes.
-5. Submit a pull request as such `dev <- your-feature-branch`.
-
-### Submitting Pull Requests
-
-When submitting a pull request, please ensure that your code passes all tests. If your code fails tests, you can add more commits and repush until all tests pass.
-
-## Issues
-
-If you encounter any issues or have suggestions for improvements, please open an issue in the repository.
-
-## Project Structure
-
-To check the project folder and understand its structure, navigate through the directories in the cloned repository. This will help you familiarize yourself with the organization of the codebase.
-
-Thank you for contributing to Syncra!
+- In the future, pre-commit hooks will be implemented, which will automatically run these commands before your commit is finalized.
