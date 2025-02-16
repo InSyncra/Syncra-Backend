@@ -1,17 +1,23 @@
 {
-    "name": "@repo/db",
-    "version": "0.0.0",
-    "main": "index.js",
-    "type": "module",
-    "scripts": {
-        "db:generate": "pnpx prisma generate",
-        "db:push": "pnpx prisma db push",
-        "db:migrate:dev": "pnpx prisma migrate dev",
-        "db:migrate:prod": "prisma migrate deploy",
-        "start": "pnpx prisma studio"
-    },
-    "dependencies": {
-        "@prisma/client": "^6.0.1",
-        "prisma": "^6.0.1"
-    }
+	"name": "@repo/db",
+	"version": "0.0.0",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"db:generate": "pnpx prisma generate",
+		"db:push": "pnpx prisma db push",
+		"db:migrate:dev": "pnpx prisma migrate dev",
+		"db:migrate:prod": "prisma migrate deploy",
+		"start": "pnpx prisma studio",
+		"format": "biome format --write ./",
+		"lint": "biome lint --write ./",
+		"format:check": "biome format ./",
+		"lint:check": "biome lint ./",
+		"check": "biome check --write .",
+		"check-style": "biome check ."
+	},
+	"dependencies": {
+		"@prisma/client": "^6.0.1",
+		"prisma": "^6.0.1"
+	}
 }

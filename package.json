@@ -1,38 +1,32 @@
 {
-    "name": "backend-setup",
-    "devDependencies": {
-        "@types/bun": "latest",
-        "eslint": "^9.17.0",
-        "eslint-config-prettier": "^9.1.0",
-        "eslint-plugin-prettier": "^5.2.1",
-        "prettier": "^3.4.2",
-        "supertest": "^7.0.0",
-        "turbo": "^2.3.3"
-    },
-    "type": "module",
-    "peerDependencies": {
-        "typescript": "^5.0.0"
-    },
-    "description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
-    "license": "ISC",
-    "private": true,
-    "scripts": {
-        "test": "turbo run test",
-        "test:watch": "turbo run test --watch",
-        "format:check": "prettier --check .",
-        "format": "prettier --write .",
-        "lint": "eslint . --fix",
-        "lint:check": "eslint .",
-        "build": "turbo run build",
-        "start": "turbo run start"
-    },
-    "prettier": {
-        "printWidth": 120,
-        "trailingComma": "all",
-        "tabWidth": 4
-    },
-    "trustedDependencies": [
-        "es5-ext"
-    ],
-    "packageManager": "pnpm@9.15.0"
+	"name": "backend-setup",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "latest",
+		"lefthook": "^1.10.10",
+		"turbo": "^2.3.3"
+	},
+	"type": "module",
+	"engines": {
+		"node": ">=18.22.4",
+		"pnpm": ">=9.15.0"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	},
+	"description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
+	"license": "ISC",
+	"private": true,
+	"scripts": {
+		"format:check": "turbo run format:check",
+		"format": "turbo run format",
+		"lint": "turbo run lint",
+		"lint:check": "turbo run lint:check",
+		"check": "turbo run check",
+		"check-style": "turbo run check-style",
+		"build": "turbo run build",
+		"start": "turbo run start"
+	},
+	"trustedDependencies": ["es5-ext"],
+	"packageManager": "pnpm@10.4.0"
 }
