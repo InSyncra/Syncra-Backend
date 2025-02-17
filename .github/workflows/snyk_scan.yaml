@@ -1,0 +1,16 @@
+name: Snyk Security Scan
+on:
+  schedule:
+    - cron: '0 0 * * 1' # weekly run
+  push:
+jobs:
+  run-security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk scan to check for vulnerabilities
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
