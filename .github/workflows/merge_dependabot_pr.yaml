@@ -1,7 +1,5 @@
 name: Merge Dependabot PR
-on: 
-  pull_request_target:
-  push:
+on: pull_request_target
 
 permissions:
   pull-requests: write
