@@ -1,62 +1,108 @@
 import { Router } from "express";
 import { prisma } from "@repo/db";
+import bcrypt from "bcryptjs";
+import { check } from "express-validator";
+import {handleValidationErrors } from "../utils/validation.js";
 
 const userRoutes = Router();
 
+// run the check and validation for required fields
+/*
+	birthday
+	profession optional
+	skill level
+	avatar optional url
+	bio is length 1000 max min 10
+	github optional url
+	past projects links optional array
+ */
+const validateUser = [
+    check("firstName")
+        .exists({ checkFalsy: true })
+        .isString()
+        .withMessage("Please provide a valid first name"),
+    check("lastName")
+        .exists({ checkFalsy: true })
+        .isString()
+        .withMessage("Please provide a valid last name"),
+    check("nickname")
+        .optional(),
+    check("username")
+        .exists({ checkFalsy: true })
+        .isString()
+        .withMessage("Please provide a valid username"),
+    check("email")
+        .exists({ checkFalsy: true })
+        .isEmail()
+		.withMessage("Please provide a valid email"),
+	check("birthdate")
+		.exists({ checkFalsy: true })
+		.isString()
+		.withMessage("Please provide a valid birthday"),
+	check("profession")
+		.optional(),
+	check("skillLevel")
+		.optional()
+		.isString()
+		.withMessage("Please provide a valid skill level"),
+	check("avatar")
+		.optional(),
+	check("bio")
+		.optional()
+		.isString()
+		.isLength({ min: 10, max: 1000 }),
+	check("githubUrl")
+		.optional(),
+	check("pastProjects")
+		.optional()
+		.isArray(),
+
+    handleValidationErrors,
+];
 // create a new user
-userRoutes.post("/signup", async (req, res) => {
-	// get the user data from the request body
-	const {
-		firstName,
-		lastName,
-		nickname,
-		username,
-		email,
-		password,
-		birthdate,
-		profession,
-		skillLevel,
-		avatar,
-		bio,
-		githubUrl,
-		pastProjectsLinks,
-		projects,
-	} = req.body;
+userRoutes.post("/signup", validateUser, async (req, res, next) => {
 
 	// try catch block to handle errors
 	try {
 		// hash the password using bcrypt
-		const hashedPassword = await bcrypt.hash(password, 10);
+		const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+		// remove the password from the request body
+		delete req.body.password;
+
+
 		// create a new user in the database
 		const user = await prisma.user.create({
 			data: {
-				firstName,
-				lastName,
-				nickname,
-				username,
-				email,
-				password: hashedPassword,
-				birthdate,
-				profession,
-				skillLevel,
-				avatar,
-				bio,
-				githubUrl,
-				pastProjectsLinks,
-				projects,
+                ...req.body,
+                hashedPassword,
 			},
+			select: {
+				id: true,
+				firstName: true,
+				lastName: true,
+				nickname: true,
+				username: true,
+				email: true,
+				birthdate: true,
+				profession: true,
+				skillLevel: true,
+				avatar: true,
+				bio: true,
+				githubUrl: true,
+
+			}
 		});
 		// send the user data as a response
 		res.status(201).json(user);
 	} catch (error) {
 		// catch any errors and send a 500 status code with an error message
-		console.error(error);
-		res.status(500).send("An error occurred while creating the user");
+        next(error);
 	}
 });
 
 // get user account
-userRoutes.get("/accounts/:id", async (req, res) => {
+userRoutes.get("/accounts/:id", async (req, res, next) => {
 	// get the user id from the request parameters
 	const { id } = req.params;
 
@@ -67,6 +113,21 @@ userRoutes.get("/accounts/:id", async (req, res) => {
 			where: {
 				id: id,
 			},
+			select: {
+				id: true,
+				firstName: true,
+				lastName: true,
+				nickname: true,
+				username: true,
+				email: true,
+				birthdate: true,
+				profession: true,
+				skillLevel: true,
+				avatar: true,
+				bio: true,
+				githubUrl: true,
+				projects: true,
+			}
 		});
 		// if the user is not found, send a 404 status code
 		if (!user) {
@@ -76,13 +137,38 @@ userRoutes.get("/accounts/:id", async (req, res) => {
 		// respond with the user data
 		res.json(user);
 	} catch (error) {
-		console.error(error);
-		res.status(500).send("An error occurred while getting the user account");
+		next(error);
 	}
 });
 
+// get all user accounts
+userRoutes.get("/accounts", async (req, res, next) => {
+	try {
+		const users = await prisma.user.findMany({
+			select: {
+				id: true,
+				firstName: true,
+				lastName: true,
+				nickname: true,
+				username: true,
+				email: true,
+				birthdate: true,
+				profession: true,
+				skillLevel: true,
+				avatar: true,
+				bio: true,
+				githubUrl: true,
+				projects: true,
+			}
+		})
+		res.json(users);
+	} catch (error) {
+		next(error)
+	}
+})
+
 // update user account
-userRoutes.put("/accounts/:id", async (req, res) => {
+userRoutes.put("/accounts/:id",  validateUser, async (req, res, next) => {
 	const { id } = req.params;
 	const userId = id;
 
@@ -96,34 +182,22 @@ userRoutes.put("/accounts/:id", async (req, res) => {
 			return res.status(404).json({ error: "User not found" });
 		}
 
-		// Extract only the fields that are provided in the request body
-		const updateData = {};
-		for (const key in req.body) {
-			if (req.body[key] !== undefined) {
-				updateData[key] = req.body[key];
-			}
-		}
 
-		// If no valid fields are provided, return an error
-		if (Object.keys(updateData).length === 0) {
-			return res.status(400).json({ error: "No valid fields provided for update" });
-		}
 
 		// Update the user in the database with only the provided fields
 		const updatedUser = await prisma.user.update({
 			where: { id: userId },
-			data: updateData,
+			data: req.body,
 		});
 
 		res.status(200).json(updatedUser);
 	} catch (error) {
-		console.error("Error updating user:", error);
-		res.status(500).json({ error: "An error occurred while updating the user account" });
+        next(error);
 	}
 });
 
 // delete user account
-userRoutes.delete("/account/:id", async (req, res) => {
+userRoutes.delete("/accounts/:id", async (req, res, next) => {
 	const { id } = req.params;
 	const userId = id;
 
@@ -141,10 +215,11 @@ userRoutes.delete("/account/:id", async (req, res) => {
 		await prisma.user.delete({
 			where: { id: userId },
 		});
-
-		res.status(204).json({ message: "account deleted successfully" });
+		const message = { message: "account deleted successfully" }
+		res.status(200).json(message);
 	} catch (error) {
-		console.error("Error deleting user:", error);
-		res.status(500).json({ error: "An error occurred while deleting the user account" });
+        next(error);
 	}
 });
+
+export default userRoutes;
