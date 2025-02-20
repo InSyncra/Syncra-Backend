@@ -1,6 +1,6 @@
 import { PrismaClientValidationError } from "@repo/db";
 import { Router } from "express";
-import userRoutes from "./userRoutes.js";
+import userRoutes from "./accounts/index.js";
 
 const routes = Router();
 
@@ -10,7 +10,8 @@ routes.get("/", async (req, res) => {
 	);
 });
 
-routes.use(userRoutes);
+// Route Imports here
+routes.use("/accounts", userRoutes);
 
 // for all unavailable routes
 routes.use((_req, _res, next) => {

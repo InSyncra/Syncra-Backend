@@ -2,20 +2,11 @@ import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
 import { Router } from "express";
 import { check } from "express-validator";
-import { handleValidationErrors } from "../utils/validation.js";
+import { handleValidationErrors } from "../../utils/validation.js";
 
 const userRoutes = Router();
 
 // run the check and validation for required fields
-/*
-	birthday
-	profession optional
-	skill level
-	avatar optional url
-	bio is length 1000 max min 10
-	github optional url
-	past projects links optional array
- */
 const validateUser = [
 	check("firstName").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid first name"),
 	check("lastName").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid last name"),
@@ -58,7 +49,7 @@ userRoutes.post("/signup", validateUser, async (req, res, next) => {
 });
 
 // get user account
-userRoutes.get("/accounts/:id", async (req, res, next) => {
+userRoutes.get("/:id", async (req, res, next) => {
 	// get the user id from the request parameters
 	const { id } = req.params;
 
@@ -83,7 +74,7 @@ userRoutes.get("/accounts/:id", async (req, res, next) => {
 });
 
 // get all user accounts
-userRoutes.get("/accounts", async (req, res, next) => {
+userRoutes.get("/", async (req, res, next) => {
 	try {
 		const users = await prisma.user.findMany();
 		res.json(users);
@@ -93,7 +84,7 @@ userRoutes.get("/accounts", async (req, res, next) => {
 });
 
 // update user account
-userRoutes.put("/accounts/:id", validateUser, async (req, res, next) => {
+userRoutes.put("/:id", validateUser, async (req, res, next) => {
 	const { id } = req.params;
 	const userId = id;
 
@@ -120,7 +111,7 @@ userRoutes.put("/accounts/:id", validateUser, async (req, res, next) => {
 });
 
 // delete user account
-userRoutes.delete("/accounts/:id", async (req, res, next) => {
+userRoutes.delete("/:id", async (req, res, next) => {
 	const { id } = req.params;
 	const userId = id;
 
