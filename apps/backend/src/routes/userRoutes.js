@@ -1,8 +1,8 @@
-import { Router } from "express";
 import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
+import { Router } from "express";
 import { check } from "express-validator";
-import {handleValidationErrors } from "../utils/validation.js";
+import { handleValidationErrors } from "../utils/validation.js";
 
 const userRoutes = Router();
 
@@ -17,51 +17,23 @@ const userRoutes = Router();
 	past projects links optional array
  */
 const validateUser = [
-    check("firstName")
-        .exists({ checkFalsy: true })
-        .isString()
-        .withMessage("Please provide a valid first name"),
-    check("lastName")
-        .exists({ checkFalsy: true })
-        .isString()
-        .withMessage("Please provide a valid last name"),
-    check("nickname")
-        .optional(),
-    check("username")
-        .exists({ checkFalsy: true })
-        .isString()
-        .withMessage("Please provide a valid username"),
-    check("email")
-        .exists({ checkFalsy: true })
-        .isEmail()
-		.withMessage("Please provide a valid email"),
-	check("birthdate")
-		.exists({ checkFalsy: true })
-		.isString()
-		.withMessage("Please provide a valid birthday"),
-	check("profession")
-		.optional(),
-	check("skillLevel")
-		.optional()
-		.isString()
-		.withMessage("Please provide a valid skill level"),
-	check("avatar")
-		.optional(),
-	check("bio")
-		.optional()
-		.isString()
-		.isLength({ min: 10, max: 1000 }),
-	check("githubUrl")
-		.optional(),
-	check("pastProjects")
-		.optional()
-		.isArray(),
+	check("firstName").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid first name"),
+	check("lastName").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid last name"),
+	check("nickname").optional(),
+	check("username").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid username"),
+	check("email").exists({ checkFalsy: true }).isEmail().withMessage("Please provide a valid email"),
+	check("birthdate").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid birthday"),
+	check("profession").optional(),
+	check("skillLevel").optional().isString().withMessage("Please provide a valid skill level"),
+	check("avatar").optional(),
+	check("bio").optional().isString().isLength({ min: 10, max: 1000 }),
+	check("githubUrl").optional(),
+	check("pastProjects").optional().isArray(),
 
-    handleValidationErrors,
+	handleValidationErrors,
 ];
 // create a new user
 userRoutes.post("/signup", validateUser, async (req, res, next) => {
-
 	// try catch block to handle errors
 	try {
 		// hash the password using bcrypt
@@ -70,12 +42,11 @@ userRoutes.post("/signup", validateUser, async (req, res, next) => {
 		// remove the password from the request body
 		delete req.body.password;
 
-
 		// create a new user in the database
 		const user = await prisma.user.create({
 			data: {
-                ...req.body,
-                hashedPassword,
+				...req.body,
+				hashedPassword,
 			},
 			select: {
 				id: true,
@@ -90,14 +61,13 @@ userRoutes.post("/signup", validateUser, async (req, res, next) => {
 				avatar: true,
 				bio: true,
 				githubUrl: true,
-
-			}
+			},
 		});
 		// send the user data as a response
 		res.status(201).json(user);
 	} catch (error) {
 		// catch any errors and send a 500 status code with an error message
-        next(error);
+		next(error);
 	}
 });
 
@@ -127,7 +97,7 @@ userRoutes.get("/accounts/:id", async (req, res, next) => {
 				bio: true,
 				githubUrl: true,
 				projects: true,
-			}
+			},
 		});
 		// if the user is not found, send a 404 status code
 		if (!user) {
@@ -159,16 +129,16 @@ userRoutes.get("/accounts", async (req, res, next) => {
 				bio: true,
 				githubUrl: true,
 				projects: true,
-			}
-		})
+			},
+		});
 		res.json(users);
 	} catch (error) {
-		next(error)
+		next(error);
 	}
-})
+});
 
 // update user account
-userRoutes.put("/accounts/:id",  validateUser, async (req, res, next) => {
+userRoutes.put("/accounts/:id", validateUser, async (req, res, next) => {
 	const { id } = req.params;
 	const userId = id;
 
@@ -182,8 +152,6 @@ userRoutes.put("/accounts/:id",  validateUser, async (req, res, next) => {
 			return res.status(404).json({ error: "User not found" });
 		}
 
-
-
 		// Update the user in the database with only the provided fields
 		const updatedUser = await prisma.user.update({
 			where: { id: userId },
@@ -192,7 +160,7 @@ userRoutes.put("/accounts/:id",  validateUser, async (req, res, next) => {
 
 		res.status(200).json(updatedUser);
 	} catch (error) {
-        next(error);
+		next(error);
 	}
 });
 
@@ -215,10 +183,10 @@ userRoutes.delete("/accounts/:id", async (req, res, next) => {
 		await prisma.user.delete({
 			where: { id: userId },
 		});
-		const message = { message: "account deleted successfully" }
+		const message = { message: "account deleted successfully" };
 		res.status(200).json(message);
 	} catch (error) {
-        next(error);
+		next(error);
 	}
 });
 
