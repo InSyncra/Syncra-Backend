@@ -1,3 +1,4 @@
+import { PrismaClientValidationError } from "@repo/db";
 import { Router } from "express";
 import userRoutes from "./userRoutes.js";
 
@@ -12,11 +13,21 @@ routes.get("/", async (req, res) => {
 routes.use(userRoutes);
 
 // for all unavailable routes
-routes.use((req, res, next) => {
+routes.use((_req, _res, next) => {
 	const error = new Error("Requested resource not found");
 	error.status = 404;
 	error.title = "404 Not Found";
 	next(error);
+});
+
+// check for Prisma Validation Errors
+routes.use((error, _req, _res, next) => {
+	if (error instanceof PrismaClientValidationError) {
+		const name = error.name;
+		error.status = 400;
+		error.title = name;
+		next(error);
+	}
 });
 
 // error handler
