@@ -48,20 +48,6 @@ userRoutes.post("/signup", validateUser, async (req, res, next) => {
 				...req.body,
 				hashedPassword,
 			},
-			select: {
-				id: true,
-				firstName: true,
-				lastName: true,
-				nickname: true,
-				username: true,
-				email: true,
-				birthdate: true,
-				profession: true,
-				skillLevel: true,
-				avatar: true,
-				bio: true,
-				githubUrl: true,
-			},
 		});
 		// send the user data as a response
 		res.status(201).json(user);
@@ -83,21 +69,6 @@ userRoutes.get("/accounts/:id", async (req, res, next) => {
 			where: {
 				id: id,
 			},
-			select: {
-				id: true,
-				firstName: true,
-				lastName: true,
-				nickname: true,
-				username: true,
-				email: true,
-				birthdate: true,
-				profession: true,
-				skillLevel: true,
-				avatar: true,
-				bio: true,
-				githubUrl: true,
-				projects: true,
-			},
 		});
 		// if the user is not found, send a 404 status code
 		if (!user) {
@@ -114,23 +85,7 @@ userRoutes.get("/accounts/:id", async (req, res, next) => {
 // get all user accounts
 userRoutes.get("/accounts", async (req, res, next) => {
 	try {
-		const users = await prisma.user.findMany({
-			select: {
-				id: true,
-				firstName: true,
-				lastName: true,
-				nickname: true,
-				username: true,
-				email: true,
-				birthdate: true,
-				profession: true,
-				skillLevel: true,
-				avatar: true,
-				bio: true,
-				githubUrl: true,
-				projects: true,
-			},
-		});
+		const users = await prisma.user.findMany();
 		res.json(users);
 	} catch (error) {
 		next(error);
