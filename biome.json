@@ -31,16 +31,16 @@
 			},
 			"suspicious": {
 				"noArrayIndexKey": "off",
-				"noAssignInExpressions": "warn"
+				"noAssignInExpressions": "off"
 			},
 			"style": {
 				"noUnusedTemplateLiteral": "off"
 			},
-			"complexity":{
+			"complexity": {
 				"noForEach": "off"
 			},
 			"performance": {
-				"noDelete": "warn"
+				"noDelete": "off"
 			}
 		}
 	},

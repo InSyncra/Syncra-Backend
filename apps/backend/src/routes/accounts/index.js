@@ -1,28 +1,10 @@
 import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
 import { Router } from "express";
-import { check } from "express-validator";
-import { handleValidationErrors } from "../../utils/validation.js";
+import { validateUser } from "../../utils/validations/user.js";
 
 const userRoutes = Router();
 
-// run the check and validation for required fields
-const validateUser = [
-	check("firstName").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid first name"),
-	check("lastName").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid last name"),
-	check("nickname").optional(),
-	check("username").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid username"),
-	check("email").exists({ checkFalsy: true }).isEmail().withMessage("Please provide a valid email"),
-	check("birthdate").exists({ checkFalsy: true }).isString().withMessage("Please provide a valid birthday"),
-	check("profession").optional(),
-	check("skillLevel").optional().isString().withMessage("Please provide a valid skill level"),
-	check("avatar").optional(),
-	check("bio").optional().isString().isLength({ min: 10, max: 1000 }),
-	check("githubUrl").optional(),
-	check("pastProjects").optional().isArray(),
-
-	handleValidationErrors,
-];
 // create a new user
 userRoutes.post("/signup", validateUser, async (req, res, next) => {
 	// try catch block to handle errors
