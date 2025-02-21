@@ -3,20 +3,24 @@
 */
 import jwt from "jsonwebtoken";
 import config from "../../config/index.js";
+import { prisma } from "@repo/db";
 
 const isProduction = config.environment === "production";
 const { secret, expiresIn } = config.jwtConfig;
 
-// Create jwt token (login & signup)
+// Create and set jwt token in cookies (login & signup)
 export function generateJWT(res, user) {
 	const token = jwt.sign({ id: user.id, email: user.email }, secret, {
-		expiresIn: Number.parseInt(expiresIn),
+		expiresIn: Number.parseInt(expiresIn), // 604,800 seconds = 1 week
 	});
+
+	console.log("GENERATED TOKEN", token);
 
 	res.cookie("token", token, {
 		httpOnly: true,
 		secure: isProduction,
-		expires: Number.parseInt(expiresIn) * 1000,
+		maxAge: Number.parseInt(expiresIn) * 1000,
+		sameSite: isProduction && "Lax",
 	});
 
 	return token;
@@ -27,27 +31,35 @@ export function restoreUserSession(req, res, next) {
 	const { token } = req.cookies;
 	req.user = null;
 
-	if (!token) {
-		res.clearCookie("token");
-		return next();
-	}
+	return jwt.verify(token, secret, null, async (err, payload) => {
+		if (err) {
+			return next();
+		}
 
-	const decoded = jwt.verify(token, secret);
-
-	if (decoded) {
-		req.user = decoded;
-	}
-
-	return next();
+		try {
+			const { id } = payload.data;
+			req.user = await prisma.user.findUnique({
+				where: {
+					id,
+				},
+				select: {
+					id: true,
+					email: true,
+				},
+			});
+		} catch (e) {
+			res.clearCookie("token");
+			return next();
+		}
+	});
 }
 
 // Routes that require auth
-export function requireAuth(req, res, next) {
+export function requireAuth(req, _res, next) {
 	if (!req.user) {
 		const error = new Error("This route requires authentication");
 		error.status = 401;
 		error.title = "Unauthorized";
-		res.clearCookie("token");
 		return next(error);
 	}
 

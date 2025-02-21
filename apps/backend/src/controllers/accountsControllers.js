@@ -1,5 +1,6 @@
 import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
+import { generateJWT } from "../utils/auth.js";
 
 export async function signUpUser(req, res, next) {
 	// try catch block to handle errors
@@ -8,15 +9,21 @@ export async function signUpUser(req, res, next) {
 		const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
 		// remove the password from the request body
-		delete req.body.password;
+		const { password, ...userData } = req.body;
 
 		// create a new user in the database
 		const user = await prisma.user.create({
 			data: {
-				...req.body,
+				...userData,
 				hashedPassword,
 			},
 		});
+
+		// Generate token after creation so that user
+		// doesn't have to sign in again
+		// Set req.user to newly created user
+		generateJWT(res, user);
+
 		// send the user data as a response
 		res.status(201).json(user);
 	} catch (error) {
