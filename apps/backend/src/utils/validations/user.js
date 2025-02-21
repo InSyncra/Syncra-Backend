@@ -18,3 +18,13 @@ export const validateUser = [
 
 	handleValidationErrors,
 ];
+
+export const validateLogin = [
+	check("credential")
+		.exists({ checkFalsy: true })
+		.withMessage("Username or Email is required")
+		.isString()
+		.withMessage("Please provide valid email"),
+	check("password").exists({ checkFalsy: true }).withMessage("Password is required"),
+	handleValidationErrors,
+];

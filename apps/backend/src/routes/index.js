@@ -1,8 +1,13 @@
 import { PrismaClientValidationError } from "@repo/db";
 import { Router } from "express";
+import config from "../../config/index.js";
+import { restoreUserSession } from "../utils/auth.js";
 import userRoutes from "./accounts/index.js";
 
 const routes = Router();
+
+// Before every route, check if the user is authenticated
+routes.use(restoreUserSession);
 
 routes.get("/", async (req, res) => {
 	res.send(
@@ -27,8 +32,8 @@ routes.use((error, _req, _res, next) => {
 		const name = error.name;
 		error.status = 400;
 		error.title = name;
-		next(error);
 	}
+	return next(error);
 });
 
 // error handler
@@ -37,6 +42,19 @@ routes.use((error, _req, res, _next) => {
 	const title = error.title || "Internal Server Error";
 	const message = error.message || "An error occurred while processing your request";
 	console.error(error);
-	res.status(status).json({ title, message, errors: error.errors, stack: error.stack });
+	const response = {
+		status,
+		title,
+		message,
+	};
+	if (config.environment === "development") {
+		response.stack = error.stack;
+	}
+
+	if (error.errors) {
+		response.errors = error.errors;
+	}
+
+	res.status(status).json(response);
 });
 export default routes;
