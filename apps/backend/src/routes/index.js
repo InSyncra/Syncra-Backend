@@ -1,7 +1,7 @@
 import { PrismaClientValidationError } from "@repo/db";
 import { Router } from "express";
-import userRoutes from "./accounts/index.js";
 import config from "../../config/index.js";
+import userRoutes from "./accounts/index.js";
 
 const routes = Router();
 

@@ -1,13 +1,13 @@
+import { Router } from "express";
 import {
 	deleteUserById,
 	getAllUsers,
 	getUserById,
-	updateUserById,
-	signup,
 	login,
 	logout,
+	signup,
+	updateUserById,
 } from "../../controllers/accountsControllers.js";
-import { Router } from "express";
 import { validateLogin, validateUser } from "../../utils/validations/user.js";
 const userRoutes = Router();
 
