@@ -29,13 +29,15 @@ export function restoreUserSession(req, res, next) {
 	const { token } = req.cookies;
 	req.user = null;
 
+	if (!token) return next();
+
 	return jwt.verify(token, secret, null, async (err, payload) => {
 		if (err) {
 			return next();
 		}
 
 		try {
-			const { id } = payload.data;
+			const { id } = payload;
 			req.user = await prisma.user.findUnique({
 				where: {
 					id,
@@ -45,6 +47,7 @@ export function restoreUserSession(req, res, next) {
 					email: true,
 				},
 			});
+			return next();
 		} catch (e) {
 			res.clearCookie("token");
 			return next();

@@ -8,6 +8,7 @@ import {
 	signup,
 	updateUserById,
 } from "../../controllers/accountsControllers.js";
+import { requireAuth } from "../../utils/auth.js";
 import { validateLogin, validateUser } from "../../utils/validations/user.js";
 const userRoutes = Router();
 
@@ -24,12 +25,12 @@ userRoutes.post("/login", validateLogin, login);
 userRoutes.get("/:id", getUserById);
 
 // update user account
-userRoutes.put("/:id", validateUser, updateUserById);
+userRoutes.put("/:id", requireAuth, validateUser, updateUserById);
 
 // log user out (delete user session, not entire account)
 userRoutes.delete("/", logout);
 
 // delete user account
-userRoutes.delete("/:id", deleteUserById);
+userRoutes.delete("/:id", requireAuth, deleteUserById);
 
 export default userRoutes;

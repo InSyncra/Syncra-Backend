@@ -152,6 +152,8 @@ export async function deleteUserById(req, res, next) {
 		await prisma.user.delete({
 			where: { id: userId },
 		});
+
+		res.clearCookie("token");
 		const message = { message: "account deleted successfully" };
 		res.status(200).json(message);
 	} catch (error) {

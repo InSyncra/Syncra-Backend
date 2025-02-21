@@ -1,9 +1,13 @@
 import { PrismaClientValidationError } from "@repo/db";
 import { Router } from "express";
 import config from "../../config/index.js";
+import { restoreUserSession } from "../utils/auth.js";
 import userRoutes from "./accounts/index.js";
 
 const routes = Router();
+
+// Before every route, check if the user is authenticated
+routes.use(restoreUserSession);
 
 routes.get("/", async (req, res) => {
 	res.send(
