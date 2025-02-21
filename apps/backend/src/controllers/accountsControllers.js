@@ -2,7 +2,7 @@ import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
 import { generateJWT } from "../utils/auth.js";
 
-export async function signUpUser(req, res, next) {
+export async function signup(req, res, next) {
 	// try catch block to handle errors
 	try {
 		// hash the password using bcrypt
@@ -30,6 +30,49 @@ export async function signUpUser(req, res, next) {
 		// catch any errors and send a 500 status code with an error message
 		next(error);
 	}
+}
+
+export async function login(req, res, next) {
+	const { credential, password } = req.body;
+	try {
+		const user = await prisma.user.findFirst({
+			where: {
+				OR: [{ email: credential }, { username: credential }],
+			},
+			select: {
+				email: true,
+				id: true,
+				hashedPassword: true,
+			},
+		});
+
+		if (!user) {
+			const error = new Error("The provided credentials were invalid.");
+			error.title = "Login Failed";
+			error.status = 401;
+			return next(error);
+		}
+
+		const isPasswordMatch = await bcrypt.compare(password, user.hashedPassword);
+
+		if (!isPasswordMatch) {
+			return res.status(401).json({ message: "Invalid credentials" });
+		}
+
+		// // Generate token after sign in so that user can use Syncra
+		const { hashedPassword, ...userPayload } = user;
+		console.log(userPayload);
+		generateJWT(res, userPayload);
+
+		return res.status(200).json({ message: "User logged in successfully" });
+	} catch (error) {
+		next(error);
+	}
+}
+
+export async function logout(_req, res) {
+	res.clearCookie("token");
+	return res.status(200).json({ message: "User logged out successfully" });
 }
 
 export async function getAllUsers(req, res, next) {

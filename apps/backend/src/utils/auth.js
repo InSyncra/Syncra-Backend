@@ -14,8 +14,6 @@ export function generateJWT(res, user) {
 		expiresIn: Number.parseInt(expiresIn), // 604,800 seconds = 1 week
 	});
 
-	console.log("GENERATED TOKEN", token);
-
 	res.cookie("token", token, {
 		httpOnly: true,
 		secure: isProduction,
