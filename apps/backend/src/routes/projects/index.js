@@ -6,11 +6,13 @@ import {
 	getProjectById,
 	updateProjectById,
 } from "../../controllers/projectsControllers.js";
+import { requireAuth } from "../../utils/auth.js";
+
 
 const projectRoutes = Router();
 
 // create a new project
-projectRoutes.post("/", createProject);
+projectRoutes.post("/", requireAuth, createProject);
 
 // get all projects
 projectRoutes.get("/", getAllProjects);
@@ -19,9 +21,9 @@ projectRoutes.get("/", getAllProjects);
 projectRoutes.get("/:id", getProjectById);
 
 // update project
-projectRoutes.put("/:id", updateProjectById);
+projectRoutes.put("/:id", requireAuth, updateProjectById);
 
 // delete project
-projectRoutes.delete("/:id", deleteProjectById);
+projectRoutes.delete("/:id", requireAuth, deleteProjectById);
 
 export default projectRoutes;
