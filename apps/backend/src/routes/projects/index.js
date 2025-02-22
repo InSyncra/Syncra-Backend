@@ -8,7 +8,6 @@ import {
 } from "../../controllers/projectsControllers.js";
 import { requireAuth } from "../../utils/auth.js";
 
-
 const projectRoutes = Router();
 
 // create a new project
