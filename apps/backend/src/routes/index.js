@@ -3,6 +3,7 @@ import { Router } from "express";
 import config from "../../config/index.js";
 import { restoreUserSession } from "../utils/auth.js";
 import userRoutes from "./accounts/index.js";
+import projectRoutes from "./projects/index.js";
 
 const routes = Router();
 
@@ -17,6 +18,7 @@ routes.get("/", async (req, res) => {
 
 // Route Imports here
 routes.use("/accounts", userRoutes);
+routes.use("/projects", projectRoutes);
 
 // for all unavailable routes
 routes.use((_req, _res, next) => {

@@ -10,6 +10,7 @@ import {
 } from "../../controllers/accountsControllers.js";
 import { requireAuth } from "../../utils/auth.js";
 import { validateLogin, validateUser } from "../../utils/validations/user.js";
+
 const userRoutes = Router();
 
 // get all user accounts
