@@ -8,9 +8,7 @@ pre-commit:
       run: "./scripts/lefthook/format-and-lint.sh"
       glob: "*.{js,ts,jsx,tsx}"
       fail_text: "❌ Linting and Formatting Failed..."
-    rebase-branch:
-      run: "./scripts/lefthook/rebase-dev.sh"
-      fail_text: "❌ Branch is not up to date with the dev branch. Please run 'git rebase dev' and try again."
+    
 
 pre-push:
   parallel: true
@@ -23,4 +21,6 @@ pre-push:
       glob: "*.{js,ts,jsx,tsx}"
       fail_text: "❌ Linting and Formatting Failed..."
     
-    
+    rebase-branch:
+      run: "./scripts/lefthook/rebase-dev.sh"
+      fail_text: "❌ Branch is not up to date with the dev branch. Please run 'git rebase dev' and try again."
