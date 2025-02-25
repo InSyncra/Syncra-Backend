@@ -1,22 +1,41 @@
 {
-    "$schema": "https://turbo.build/schema.json",
-    "ui": "tui",
-    "globalDependencies": [
-        "turbo",
-        "eslint",
-        "prettier",
-        "eslint-plugin-prettier",
-        "eslint-config-prettier",
-        "**/package.json"
-    ],
-    "tasks": {
-        "build": {
-            "outputs": ["dist/**"],
-            "dependsOn": ["^build"]
-        },
-        "start": {
-            "persistent": true,
-            "cache": false
-        }
-    }
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "tui",
+	"globalDependencies": [
+		"turbo",
+		"eslint",
+		"prettier",
+		"eslint-plugin-prettier",
+		"eslint-config-prettier",
+		"**/package.json"
+	],
+	"tasks": {
+		"build": {
+			"outputs": ["dist/**"],
+			"dependsOn": ["^build"]
+		},
+		"start": {
+			"persistent": true,
+			"cache": false
+		},
+		"format": {
+			"dependsOn": ["^format"]
+		},
+		"lint": {
+			"dependsOn": ["^lint"]
+		},
+		"format:check": {
+			"dependsOn": ["^format:check"]
+		},
+		"lint:check": {
+			"dependsOn": ["^lint:check"]
+		},
+		"check-style": {
+			"dependsOn": ["^check-style"]
+		},
+		"check": {
+			"dependsOn": ["^check"]
+		}
+	}
+
 }
