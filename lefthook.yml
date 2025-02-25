@@ -1,54 +1,25 @@
-# EXAMPLE USAGE:
-#
-#   Refer for explanation to following link:
-#   https://lefthook.dev/configuration/
-#
-# pre-push:
-#   jobs:
-#     - name: packages audit
-#       tags:
-#         - frontend
-#         - security
-#       run: yarn audit
-#
-#     - name: gems audit
-#       tags:
-#         - backend
-#         - security
-#       run: bundle audit
-#
-# pre-commit:
-#   parallel: true
-#   jobs:
-#     - run: yarn eslint {staged_files}
-#       glob: "*.{js,ts,jsx,tsx}"
-#
-#     - name: rubocop
-#       glob: "*.rb"
-#       exclude:
-#         - config/application.rb
-#         - config/routes.rb
-#       run: bundle exec rubocop --force-exclusion {all_files}
-#
-#     - name: govet
-#       files: git ls-files -m
-#       glob: "*.go"
-#       run: go vet {files}
-#
-#     - script: "hello.js"
-#       runner: node
-#
-#     - script: "hello.go"
-#       runner: go run
 pre-commit:
   parallel: true
   commands:
-    format:
-      run: pnpx @biomejs/biome format --write --files-ignore-unknown=true --no-errors-on-unmatched {staged_files}
-      staged_fixed: true
+    check-branch:
+      run: "./scripts/lefthook/check-branch.sh"
+      fail_text: "❌ Commit blocked! Switch to a feature branch or run with '--no-verify' to bypass (not recommended)."
+    format-and-lint:
+      run: "./scripts/lefthook/format-and-lint.sh"
+      glob: "*.{js,ts,jsx,tsx}"
+      fail_text: "❌ Linting and Formatting Failed..."
+    
 
 pre-push:
-  parallel: true
   commands:
-    check:
-      run: pnpx @biomejs/biome check --files-ignore-unknown=true {push_files}
+    check-branch:
+      run: "./scripts/lefthook/check-branch.sh" 
+      fail_text: "❌ Commit blocked! Switch to a feature branch or run with '--no-verify' to bypass (not recommended)."
+    format-and-lint:
+      run: "./scripts/lefthook/format-and-lint.sh"
+      glob: "*.{js,ts,jsx,tsx}"
+      fail_text: "❌ Linting and Formatting Failed..."
+    
+    rebase-branch:
+      run: "./scripts/lefthook/rebase-dev.sh"
+      fail_text: "❌ Branch is not up to date with the dev branch. Please run 'git rebase dev' and try again."
