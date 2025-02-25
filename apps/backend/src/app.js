@@ -5,6 +5,7 @@ import cors from "cors";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
+
 import routes from "./routes/index.js";
 
 const app = express();
@@ -24,5 +25,6 @@ app.use(
 
 // Connect all the routes
 app.use("/api/v1", routes);
+
 
 export default app;

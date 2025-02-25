@@ -1,3 +1,4 @@
+
 # Welcome to the Syncra Backend!
 This repo is for authorized developers to access the and develop the Syncra API.
 
@@ -6,6 +7,7 @@ This repo is for authorized developers to access the and develop the Syncra API.
 - PostgreSQL: Database
 - Prisma: Type-safe ORM for manipulating data
 - Docker: Containerization for consistent development | mock production environment
+
 
 ## Setup
 The Syncra Backend follows the [Monorepo layout](https://medium.com/@avicsebooks/monorepo-2edb5a67517d), which means at any point there will be multiple repositories within the same project repo. Make sure you are installing necessary dependencies for your given service/repo.  
@@ -16,6 +18,7 @@ The Syncra Backend follows the [Monorepo layout](https://medium.com/@avicsebooks
 * npm version 8 or higher
 * Docker version 22 or higher
 * Git version 2.34.1 or higher
+
 
 ### Install & Run the Syncra Backend
 1. Clone the backend repository using either of the following command:
@@ -39,6 +42,7 @@ The Syncra Backend follows the [Monorepo layout](https://medium.com/@avicsebooks
     - `/packages/database`
 
 3. To run all services, including the database and prisma, run `pnpm start` while still cd'd in the root directory.
+
 
 4. Navigate to the specific repo you want to work on and begin development.
     - 4.1: For a cleaner development environment, navigate to the `.vscode` folder and click the workspace with your name.

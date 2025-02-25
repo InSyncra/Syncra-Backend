@@ -1,0 +1,10 @@
+build
+coverage
+dist
+
+**/.git*
+**/node_modules/
+
+bun.lockb
+**/*.config*
+**/*.test*

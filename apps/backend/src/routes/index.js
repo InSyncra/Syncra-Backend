@@ -59,4 +59,5 @@ routes.use((error, _req, res, _next) => {
 
 	res.status(status).json(response);
 });
+
 export default routes;
