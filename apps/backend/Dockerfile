@@ -1,17 +1,20 @@
 # Stage 1 Base and build
-FROM node:18-alpine AS base
+FROM node:18-slim AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 # Create app directory
 WORKDIR /app
 
-# Install pnpm
-RUN apk update && apk add --no-cache openssl
+# Install coreutils to enable chown
+RUN apt-get update && apt-get install -y coreutils openssl
 
-# Create a non-root user
-RUN addgroup -S nodegroup && adduser -S nodeuser -G nodegroup
+# Enable pnpm and turbo
+RUN npm install -g turbo
 
-# Install global packages
-RUN npm install -g pnpm turbo
+# # Create a non-root user
+# RUN addgroup --system nodegroup && adduser --system --ingroup nodegroup nodeuser
 
 # Copy monorepo dependency management files
 COPY turbo.json .
@@ -25,7 +28,7 @@ COPY apps/backend ./apps/backend
 COPY packages/database ./packages/database
 
 # Prune the workspace for backend and database
-RUN turbo prune backend --docker
+RUN turbo prune --scope=backend --scope=@repo/db --docker
 
 # Stage 2 Install dependencies from base stage
 FROM base AS installer
@@ -34,7 +37,8 @@ WORKDIR /app
 # Copy and install json files from app/out in base
 COPY --from=base /app/out/json/ .
 COPY --from=base /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-RUN pnpm install -r
+# Use build cache for pnpm store
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install -r --frozen-lockfile
 
 # Stage 3 Run the app
 FROM base AS runner
@@ -51,9 +55,6 @@ COPY --from=installer /app/packages/database/node_modules /app/packages/database
 
 WORKDIR /app/packages/database
 
-# Ensure correct permissions
-RUN chown -R nodeuser:nodegroup /app
-
 # Set environment variables
 ENV NODE_ENV=production
 
@@ -63,14 +64,11 @@ RUN npx prisma generate
 # Set working directory to backend
 WORKDIR /app/apps/backend
 
-# Ensure correct permissions
-RUN chown -R nodeuser:nodegroup /app/apps/backend
-
 # Expose the port the app runs on
 EXPOSE 8000
 
-# Switch to non-root user
-USER nodeuser
+# # Switch to non-root user
+# USER nodeuser
 
 # Command to run the application
 CMD ["pnpm", "start"]
