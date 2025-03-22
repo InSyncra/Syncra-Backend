@@ -1,7 +1,21 @@
 import { prisma } from "@repo/db";
+import {z} from "zod";
+
+const projectSchema = z.object({
+	title: z.string(),
+	description: z.string(),
+	githubUrl: z.string(),
+	isPublic: z.boolean().optional(),
+	thumbnailUrl: z.string().optional(),
+});
 
 // create a new project
 export const createProject = async (req, res, next) => {
+	const { error } = projectSchema.safeParse(req.body);
+	if(error){
+		next(error);
+		return;
+	}
 	try {
 		const project = await prisma.project.create({
 			data: req.body,
@@ -44,7 +58,11 @@ export const getProjectById = async (req, res, next) => {
 export const updateProjectById = async (req, res, next) => {
 	const { id } = req.params;
 	const projectId = id;
-
+	const {error} = projectSchema.safeParse(req.body);
+	if(error){
+		next(error);
+		return;
+	}
 	try {
 		const existingProject = await prisma.project.findUnique({
 			where: { id: projectId },

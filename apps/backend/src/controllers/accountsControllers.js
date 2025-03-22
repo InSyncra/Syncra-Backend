@@ -1,8 +1,31 @@
 import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
 import { generateJWT } from "../utils/auth.js";
+import {z} from "zod";
+
+
+const userSchema = z.object({
+	firstName: z.string(),
+	lastName: z.string(),
+	nickname: z.string().optional(),
+	username: z.string(),
+	email: z.string().email(),
+	password: z.string(),
+	birthday: z.string(),
+	profession: z.string().optional(),
+	avatar: z.string().optional(),
+	bio: z.string().optional(),
+	githubUrl: z.string().optional(),
+});
+
+
 
 export async function signup(req, res, next) {
+	const {error} = userSchema.safeParse(req.body);
+	if(error){
+		next(error)
+		return;
+	}
 	// try catch block to handle errors
 	try {
 		// hash the password using bcrypt
@@ -111,6 +134,11 @@ export async function getUserById(req, res, next) {
 export async function updateUserById(req, res, next) {
 	const { id } = req.params;
 	const userId = id;
+	const { error} = userSchema.safeParse(req.body);
+	if(error){
+		next(error)
+		return;
+	}
 
 	try {
 		// Check if the user exists
