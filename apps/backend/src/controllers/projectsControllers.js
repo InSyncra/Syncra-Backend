@@ -1,5 +1,5 @@
 import { prisma } from "@repo/db";
-import {z} from "zod";
+import { z } from "zod";
 
 const projectSchema = z.object({
 	title: z.string(),
@@ -12,7 +12,7 @@ const projectSchema = z.object({
 // create a new project
 export const createProject = async (req, res, next) => {
 	const { error } = projectSchema.safeParse(req.body);
-	if(error){
+	if (error) {
 		next(error);
 		return;
 	}
@@ -58,8 +58,8 @@ export const getProjectById = async (req, res, next) => {
 export const updateProjectById = async (req, res, next) => {
 	const { id } = req.params;
 	const projectId = id;
-	const {error} = projectSchema.safeParse(req.body);
-	if(error){
+	const { error } = projectSchema.safeParse(req.body);
+	if (error) {
 		next(error);
 		return;
 	}

@@ -1,8 +1,7 @@
 import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
+import { z } from "zod";
 import { generateJWT } from "../utils/auth.js";
-import {z} from "zod";
-
 
 const userSchema = z.object({
 	firstName: z.string(),
@@ -18,12 +17,10 @@ const userSchema = z.object({
 	githubUrl: z.string().optional(),
 });
 
-
-
 export async function signup(req, res, next) {
-	const {error} = userSchema.safeParse(req.body);
-	if(error){
-		next(error)
+	const { error } = userSchema.safeParse(req.body);
+	if (error) {
+		next(error);
 		return;
 	}
 	// try catch block to handle errors
@@ -134,9 +131,9 @@ export async function getUserById(req, res, next) {
 export async function updateUserById(req, res, next) {
 	const { id } = req.params;
 	const userId = id;
-	const { error} = userSchema.safeParse(req.body);
-	if(error){
-		next(error)
+	const { error } = userSchema.safeParse(req.body);
+	if (error) {
+		next(error);
 		return;
 	}
 

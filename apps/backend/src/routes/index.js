@@ -5,7 +5,6 @@ import { restoreUserSession } from "../utils/auth.js";
 import userRoutes from "./accounts/index.js";
 import projectRoutes from "./projects/index.js";
 
-
 const routes = Router();
 
 // Before every route, check if the user is authenticated
