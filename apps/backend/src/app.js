@@ -26,5 +26,4 @@ app.use(
 // Connect all the routes
 app.use("/api/v1", routes);
 
-
 export default app;
