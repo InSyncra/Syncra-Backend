@@ -4,17 +4,22 @@ import { z } from "zod";
 import { generateJWT } from "../utils/auth.js";
 
 const userSchema = z.object({
-	firstName: z.string(),
-	lastName: z.string(),
+	firstName: z.string("First name is required"),
+	lastName: z.string("Last name is required"),
 	nickname: z.string().optional(),
-	username: z.string(),
-	email: z.string().email(),
-	password: z.string(),
-	birthday: z.string(),
+	username: z.string("Username is required"),
+	email: z.string().email("Invalid email address"),
+	password: z.string("Password is required"),
+	birthdate: z.string("Birthday is required"),
 	profession: z.string().optional(),
 	avatar: z.string().optional(),
 	bio: z.string().optional(),
 	githubUrl: z.string().optional(),
+});
+
+const userCredentialSchema = z.object({
+	credential: z.string("Username or email is required"),
+	password: z.string(),
 });
 
 export async function signup(req, res, next) {
@@ -53,6 +58,11 @@ export async function signup(req, res, next) {
 }
 
 export async function login(req, res, next) {
+	const { error } = userCredentialSchema.safeParse(req.body);
+	if (error) {
+		next(error);
+		return;
+	}
 	const { credential, password } = req.body;
 	try {
 		const user = await prisma.user.findFirst({
