@@ -69,6 +69,10 @@ importers:
       pg:
         specifier: ^8.14.1
         version: 8.14.1
+      zod:
+        specifier: ^3.24.2
+        version: 3.24.2
+
     devDependencies:
       nodemon:
         specifier: ^3.1.7
@@ -80,7 +84,7 @@ importers:
         specifier: ^6.5.0
         version: 6.5.0(prisma@6.5.0(typescript@5.7.3))(typescript@5.7.3)
       prisma:
-        specifier: ^6.4.1
+        specifier: ^6.5.0
         version: 6.5.0(typescript@5.7.3)
 
   packages/docker: {}
@@ -1006,6 +1010,9 @@ packages:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
 
+  zod@3.24.2:
+    resolution: {integrity: sha512-lY7CDW43ECgW9u1TcT3IoXHflywfVqDYze4waEz812jR/bZ8FHDsl7pFQoSZTz5N+2NqRXs8GBwnAwo3ZNxqhQ==}
+
 snapshots:
 
   '@biomejs/biome@1.9.4':
@@ -1212,8 +1219,9 @@ snapshots:
       fill-range: 7.1.1
 
   buffer-equal-constant-time@1.0.1: {}
-
+  
   bun-types@1.2.6:
+
     dependencies:
       '@types/node': 22.13.13
       '@types/ws': 8.5.14
@@ -1867,3 +1875,5 @@ snapshots:
   vary@1.1.2: {}
 
   xtend@4.0.2: {}
+
+  zod@3.24.2: {}

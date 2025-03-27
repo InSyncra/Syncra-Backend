@@ -38,7 +38,7 @@ export function restoreUserSession(req, res, next) {
 
 		try {
 			const { id } = payload;
-			req.user = await prisma.user.findUnique({
+			const user = await prisma.user.findUniqueOrThrow({
 				where: {
 					id,
 				},
@@ -47,6 +47,8 @@ export function restoreUserSession(req, res, next) {
 					email: true,
 				},
 			});
+			req.user = new ReqUserObject(user.id, user.email);
+			console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
 			return next();
 		} catch (e) {
 			res.clearCookie("token");
@@ -65,4 +67,19 @@ export function requireAuth(req, _res, next) {
 	}
 
 	return next();
+}
+
+/**
+ * Info of currently logged in user used for request validations and authorizations
+ */
+class ReqUserObject {
+	/**
+	 *
+	 * @param {string} id - User Id retrieved from database
+	 * @param {string} email - User' email retrieved from database
+	 */
+	constructor(id, email) {
+		this.id = id;
+		this.email = email;
+	}
 }
