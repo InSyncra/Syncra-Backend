@@ -4,7 +4,7 @@
 		"@biomejs/biome": "1.9.4",
 		"@types/bun": "latest",
 		"turbo": "^2.4.4",
-		"lefthook": "^1.11.2"
+		"lefthook": "^1.11.3"
 	},
 	"type": "module",
 	"engines": {
