@@ -1,22 +1,16 @@
 import { prisma } from "@repo/db";
-import { z } from "zod";
+import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
+import { projectSchema } from "../utils/validations/zod-schemas.js";
 
-const projectSchema = z.object({
-	title: z.string(),
-	description: z.string(),
-	githubUrl: z.string(),
-	isPublic: z.boolean().optional(),
-	thumbnailUrl: z.string().optional(),
-});
-
-// create a new project
+/**
+ * create a new project
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ */
 export const createProject = async (req, res, next) => {
-	const { error } = projectSchema.safeParse(req.body);
-	if (error) {
-		next(error);
-		return;
-	}
 	try {
+		validateRequestBody(projectSchema, req, next);
 		const project = await prisma.project.create({
 			data: req.body,
 		});
@@ -26,7 +20,13 @@ export const createProject = async (req, res, next) => {
 	}
 };
 
-// get all projects
+// TODO: Add req.query params to handle filtering and pagination
+/**
+ * get all projects
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ */
 export const getAllProjects = async (req, res, next) => {
 	try {
 		const projects = await prisma.project.findMany();
@@ -36,15 +36,20 @@ export const getAllProjects = async (req, res, next) => {
 	}
 };
 
-// get project by id
+/**
+ * get project by id
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ */
 export const getProjectById = async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const projectId = id;
 
 		const project = await prisma.project.findUnique({
-			where: { id: projectId },
+			where: { id },
 		});
+
 		if (!project) {
 			return res.status(404).json({ error: "Project not found" });
 		}
@@ -54,37 +59,50 @@ export const getProjectById = async (req, res, next) => {
 	}
 };
 
-// update project
+/**
+ * update project
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ */
 export const updateProjectById = async (req, res, next) => {
-	const { id } = req.params;
-	const projectId = id;
-	const { error } = projectSchema.safeParse(req.body);
-	if (error) {
-		next(error);
-		return;
-	}
+	const { id: projectId } = req.params;
+	const { id: userId } = req.user;
+
 	try {
+		validateRequestBody(projectSchema);
 		const existingProject = await prisma.project.findUnique({
 			where: { id: projectId },
 		});
+
 		if (!existingProject) {
 			return res.status(404).json({ error: "Project not found" });
 		}
+
+		// Only currently logged in user that created the project can update project
+		if (userId !== existingProject.ownerId) return res.status(403).json({ message: "Forbidden" });
+
 		const updatedProject = await prisma.project.update({
 			where: { id: projectId },
 			data: req.body,
 		});
+
 		res.json(updatedProject);
 	} catch (error) {
 		next(error);
 	}
 };
 
-// delete project
+/**
+ * delete project
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ */
 export const deleteProjectById = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const projectId = id;
+		const { id: projectId } = req.params;
+		const { id: userId } = req.user;
 
 		const existingProject = await prisma.project.findUnique({
 			where: { id: projectId },
@@ -92,6 +110,9 @@ export const deleteProjectById = async (req, res, next) => {
 		if (!existingProject) {
 			return res.status(404).json({ error: "Project not found" });
 		}
+
+		if (userId !== existingProject.ownerId) return res.status(403).json({ message: "Forbidden" });
+
 		await prisma.project.delete({
 			where: { id: projectId },
 		});

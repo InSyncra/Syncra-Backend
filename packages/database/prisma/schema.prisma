@@ -30,7 +30,7 @@ model User {
   githubUrl String?
   pastProjectLinks String[]
   projects Project[]
-  userPrefs UserPrefs? @relation(fields: [userPrefsId], references: [id])
+  userPrefs UserPrefs? @relation(fields: [userPrefsId], references: [id], onDelete: Cascade)
   userPrefsId String? @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -55,9 +55,9 @@ model UserPrefs {
 model Project {
   id String @id @default(cuid())
   ownerId String
-  owner User @relation(fields: [ownerId], references: [id])
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   title String @db.VarChar(100)
-  description String @db.VarChar(500)
+  description String? @db.VarChar(10000)
   thumbnailUrl String?
   githubUrl String?
   viewsCount Int @default(0)
