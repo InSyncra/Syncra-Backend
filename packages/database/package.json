@@ -17,8 +17,8 @@
 		"check-style": "biome check ."
 	},
 	"dependencies": {
-		"@prisma/client": "^6.4.1",
-		"prisma": "^6.5.0"
+		"@prisma/client": "^6.5.0",
+		"prisma": "^6.4.1"
 	}
 
 }
