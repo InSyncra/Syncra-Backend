@@ -1,6 +1,6 @@
-import { prisma } from "@repo/db";
 import bcrypt from "bcryptjs";
 import { generateJWT } from "../utils/auth.js";
+import { prisma } from "../utils/prisma.js";
 import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
 import { userCredentialSchema, userSchema } from "../utils/validations/zod-schemas.js";
 

@@ -1,7 +1,7 @@
-import { PrismaClientValidationError } from "@repo/db";
 import { Router } from "express";
 import config from "../../config/index.js";
 import { restoreUserSession } from "../utils/auth.js";
+import { PrismaClientValidationError } from "../utils/prisma.js";
 import userRoutes from "./accounts/index.js";
 import authRoutes from "./auth/index.js";
 import projectRoutes from "./projects/index.js";

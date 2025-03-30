@@ -1,4 +1,4 @@
-import { prisma } from "@repo/db";
+import { prisma } from "../utils/prisma.js";
 import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
 import { userUpdateSchema } from "../utils/validations/zod-schemas.js";
 
