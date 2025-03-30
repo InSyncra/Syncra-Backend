@@ -9,6 +9,7 @@ on:
     pull_request:
         branches:
             - main
+        types: [closed]
 
 jobs:
     auto-deploy:
@@ -27,4 +28,4 @@ jobs:
           - name: Install Vercel CLI
             run: npm install -g vercel
           - name: Deploy to Vercel
-            run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+            run: vercel --yes --prod --token ${{ secrets.VERCEL_TOKEN }}
