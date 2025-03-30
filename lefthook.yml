@@ -1,25 +1,19 @@
 pre-commit:
-  parallel: true
-  commands:
-    check-branch:
-      run: "./scripts/lefthook/check-branch.sh"
-      fail_text: "❌ Commit blocked! Switch to a feature branch or run with '--no-verify' to bypass (not recommended)."
-    format-and-lint:
-      run: "./scripts/lefthook/format-and-lint.sh"
-      glob: "*.{js,ts,jsx,tsx}"
-      fail_text: "❌ Linting and Formatting Failed..."
-    
+  jobs:
+    - name: Code Quality Check
+      run: pnpm dlx biome check --write {staged_files}
+      glob: "*.{js,jsx,ts,tsx}"
+      stage_fixed: true
 
-pre-push:
+prepare-commit-msg:
   commands:
-    check-branch:
-      run: "./scripts/lefthook/check-branch.sh" 
-      fail_text: "❌ Commit blocked! Switch to a feature branch or run with '--no-verify' to bypass (not recommended)."
-    format-and-lint:
-      run: "./scripts/lefthook/format-and-lint.sh"
-      glob: "*.{js,ts,jsx,tsx}"
-      fail_text: "❌ Linting and Formatting Failed..."
-    
-    rebase-branch:
-      run: "./scripts/lefthook/rebase-dev.sh"
-      fail_text: "❌ Branch is not up to date with the dev branch. Please run 'git rebase dev' and try again."
+    commitizen:
+      interactive: true
+      run: npx git-cz --hook
+      env:
+        LEFTHOOK: "1"
+
+commit-msg:
+  commands:
+    commitlint:
+      run: npx commitlint --edit $(git rev-parse --absolute-git-dir)/COMMIT_EDITMSG

@@ -1,36 +1,17 @@
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "sunday"
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
-    pull-request-branch-name:
-      separator: "-"
+      interval: weekly
+      day: sunday
+    open-pull-requests-limit: 3
     labels:
-      - "Dependabot"
+      - dependencies
     commit-message:
-      prefix: "update(deps)"
+      prefix: "chore(deps)"
+      include: scope
+    target-branch: dev
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
-  - package-ecosystem: "npm"
-    directory: "/apps/backend"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
-  - package-ecosystem: "npm"
-    directory: "/packages/database"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
-  - package-ecosystem: "npm"
-    directory: "/packages/docker"
-    schedule:
-      interval: "weekly"
-      day: "sunday"
