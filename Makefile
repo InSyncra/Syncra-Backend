@@ -11,7 +11,6 @@ install:
 
 # Run automated git committer
 commit:
-	git add $(shell git diff --name-only HEAD)
 	git commit
 
 # Run the project in dev mode

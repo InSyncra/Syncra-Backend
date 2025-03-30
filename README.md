@@ -7,10 +7,15 @@ This repo is for authorized developers to access the and develop the Syncra API.
 - PostgreSQL: Database
 - Prisma: Type-safe ORM for manipulating data
 - Docker: Containerization for consistent development | mock production environment
+- Commitizen: Git hook to automatically update changelog
+- Commitlint: Git hook to enforce consistent commit messages
+- Lefthook: Git hook to enforce consistent code style
+- Biomejs: Git hook to enforce consistent code style
+- Make: Utility for automating tasks
+- Vercel: Deployment platform
 
 
-## Setup
-The Syncra Backend follows the [Monorepo layout](https://medium.com/@avicsebooks/monorepo-2edb5a67517d), which means at any point there will be multiple repositories within the same project repo. Make sure you are installing necessary dependencies for your given service/repo.  
+## Setup 
 
 ### Prerequisites
 * Pnpm (package manager) version 9.15 or higher
@@ -31,26 +36,16 @@ The Syncra Backend follows the [Monorepo layout](https://medium.com/@avicsebooks
     git clone git@github.com:InSyncra/Syncra-Backend.git <optional custom folder
     ```
 
-2. Open the cloned repository and install everything from the root repository
+2. Open the cloned repository and install everything from the root repository. This will install all the necessary dependencies and hooks required for the backend.
     ```bash
-    pnpm install
+    make install
     ```
 
-3. Create a `.env` file in the following directories - There are `.env.example` files provided for you to know what to fill in:
-    - `/` _(the root directory)_ 
-    - `/apps/backend`
-    - `/packages/database`
+3. Create a `.env` file in the root directory and setup the necessary environment variables. A `.env.example` file has been provided for you to know what to fill in.
 
-3. To run all services, including the database and prisma, run `pnpm start` while still cd'd in the root directory.
-
-
-4. Navigate to the specific repo you want to work on and begin development.
-    - 4.1: For a cleaner development environment, navigate to the `.vscode` folder and click the workspace with your name.
-    - 4.2: Click _`'Open workspace'`_ to reopen VSCode in your workspace
-
-5. You will need to _generate_ the Prisma database schema by running the following command in the `/packages/database` directory:
+4. Run the backend using the following command:
     ```bash
-    pnpm db:generate  
+    make run
     ```
 
 ## Running the database
