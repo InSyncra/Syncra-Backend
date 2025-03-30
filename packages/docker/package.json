@@ -1,9 +1,0 @@
-{
-	"name": "@repo/docker",
-	"version": "0.0.0",
-	"scripts": {
-		"start": "docker compose -f compose.dev.yaml up --build",
-		"start:production": "docker compose -f compose.prod.yaml up --build",
-		"db:reset": "docker compose -f compose.dev.yaml down -v --remove-orphans && docker compose -f compose.dev.yaml up --build"
-	}
-}

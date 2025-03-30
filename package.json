@@ -1,32 +1,31 @@
 {
 	"name": "backend-setup",
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"@types/bun": "latest",
-		"turbo": "^2.4.4",
-		"lefthook": "^1.11.3"
-	},
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
 	"type": "module",
-	"engines": {
-		"node": ">=18.22.4",
-		"pnpm": ">=9.15.0"
-	},
-	"peerDependencies": {
-		"typescript": "^5.0.0"
-	},
-	"description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
-	"license": "ISC",
-	"private": true,
 	"scripts": {
-		"format:check": "turbo run format:check",
-		"format": "turbo run format",
-		"lint": "turbo run lint",
-		"lint:check": "turbo run lint:check",
-		"check": "turbo run check",
-		"check-style": "turbo run check-style",
-		"build": "turbo run build",
-		"start": "turbo run start"
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"trustedDependencies": ["es5-ext"],
-	"packageManager": "pnpm@10.4.0"
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"lefthook": "^1.11.5",
+		"nodemon": "^3.1.9"
+	},
+	"dependencies": {
+		"bcryptjs": "^3.0.2",
+		"body-parser": "^2.2.0",
+		"cookie-parser": "^1.4.7",
+		"cors": "^2.8.5",
+		"dotenv": "^16.4.7",
+		"express": "^4.21.2",
+		"helmet": "^8.1.0",
+		"jsonwebtoken": "^9.0.2",
+		"morgan": "^1.10.0",
+		"per-env": "^1.0.2",
+		"pg": "^8.14.1"
+	}
 }
