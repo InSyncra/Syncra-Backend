@@ -2,12 +2,14 @@
 	"name": "backend-setup",
 	"version": "1.2.1",
 	"description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
-	"main": "bin/www",
+	"main": "src/app.js",
 	"type": "module",
 	"scripts": {
 		"start": "per-env",
-		"start:development": "nodemon bin/www",
-		"start:production": "node bin/www"
+		"start:development": "nodemon src/app.js",
+		"start:production": "node src/app.js",
+		"build": "pnpx prisma migrate deploy",
+		"postinstall": "prisma generate"
 	},
 	"keywords": [],
 	"author": "",
