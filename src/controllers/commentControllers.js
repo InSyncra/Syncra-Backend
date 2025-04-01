@@ -86,3 +86,30 @@ export const updateCommentById = async (req, res, next) => {
 
     }
 }
+
+//delete comment
+/**
+ * @param {Request} req
+ * @param {Response} res
+ * @param {Function} next
+ */
+export const deleteCommentById = async (req, res, next) =>{
+    const {id} = req.params;
+    try {
+        const existingComment = await prisma.comment.findUnique({
+            where: {id},
+        })
+        if(!existingComment){
+            return res.status(404).json({ error: "Comment not found" });
+        }
+        if(existingComment.userId !== req.user.id){
+            return res.status(403).json({ error: "You are not authorized to delete this comment" });
+        }
+        await prisma.comment.delete({
+            where: { id },
+        });
+        res.status(204).json({ message: "Comment deleted successfully" });
+    } catch (error) {
+        next(error);
+    }
+}
