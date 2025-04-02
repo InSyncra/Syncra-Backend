@@ -3,6 +3,8 @@ import { z } from "zod";
 // Every required parameter should provide a concise message
 // So developers aren't left in the dark about what's missing.
 // TODO: Add in min/max + any criteria to meet upon user signup
+// user schema
+// The user schema is used to validate the user data
 export const userSchema = z.object({
 	firstName: z.string({ message: "First name is required" }).max(100, { message: "First Name over 100 characters" }),
 	lastName: z.string({ message: "Last name is required" }).max(100, { message: "Last Name over 100 characters" }),
@@ -35,6 +37,8 @@ export const userCredentialSchema = z.object({
 	password: z.string({ message: "Password is required" }),
 });
 
+// project schema
+// The project schema is used to validate the project data
 export const projectSchema = z.object({
 	title: z
 		.string({ message: "Title is required" })
@@ -47,4 +51,13 @@ export const projectSchema = z.object({
 	githubUrl: z.string().optional(),
 	isPublic: z.boolean().optional().default(true),
 	thumbnailUrl: z.string().optional(),
+});
+
+// comment schema
+// The comment schema is used to validate the comment data
+export const commentSchema = z.object({
+	text: z
+		.string({ message: "Text is required" })
+		.min(1, { message: "Text must be at least 1 character" })
+		.max(500, { message: "Text exceeds 500 characters" }),
 });
