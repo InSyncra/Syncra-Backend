@@ -56,8 +56,8 @@ export const projectSchema = z.object({
 // comment schema
 // The comment schema is used to validate the comment data
 export const commentSchema = z.object({
-	text: z
+	body: z
 		.string({ message: "Text is required" })
 		.min(1, { message: "Text must be at least 1 character" })
-		.max(500, { message: "Text exceeds 500 characters" }),
+		.max(10000, { message: "Text exceeds 10000 characters" }),
 });

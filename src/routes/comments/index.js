@@ -5,13 +5,13 @@ import {
     getAllComments,
     getCommentsByProjectId,
     updateCommentById,
-} from "../../controllers/commentsControllers.js";
+} from "../../controllers/commentControllers.js";
 import { requireAuth } from "../../utils/auth.js";
 
 const commentRoutes = Router();
 
 // create a new comment
-commentRoutes.post("/", requireAuth, createComment);
+commentRoutes.post("/:projectId", requireAuth, createComment);
 
 // get all comments
 commentRoutes.get("/", getAllComments);
@@ -20,7 +20,7 @@ commentRoutes.get("/", getAllComments);
 commentRoutes.get("/:id", getCommentsByProjectId);
 
 // update comment
-commentRoutes.put("/:id", requireAuth, updateCommentById);
+commentRoutes.put("/:commentId", requireAuth, updateCommentById);
 
 // delete comment
 commentRoutes.delete("/:id", requireAuth, deleteCommentById);
