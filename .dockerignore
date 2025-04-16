@@ -10,3 +10,13 @@
 .github/
 .git
 .vscode
+scripts/
+.cz.toml
+commit*
+vercel.json
+compose.yaml
+Makefile
+lefthook.yml
+biome.json
+**/.dockerignore
+**/*.md
