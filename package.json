@@ -1,6 +1,6 @@
 {
 	"name": "backend-setup",
-	"version": "1.2.1",
+	"version": "1.2.2",
 	"description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
 	"main": "src/app.js",
 	"type": "module",
