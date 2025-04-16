@@ -18,6 +18,12 @@ RUN pnpm install
 COPY . .
 
 RUN pnpx prisma generate
+ENV NODE_ENV=production
+
+# Set entrypoint script (to run prisma migrate deploy)
+COPY entry-point.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/entry-point.sh
 
 EXPOSE 8000
-CMD ["pnpm", "run", "start"]
+
+ENTRYPOINT [ "/usr/local/bin/entry-point.sh" ]
