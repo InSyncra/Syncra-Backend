@@ -64,9 +64,19 @@ export const projectSchema = z.object({
 		.string({ message: "Description is required" })
 		.min(5, { message: "Description must be at least 5 characters" })
 		.max(500, { message: "Description exceeds 500 characters" }),
-	githubUrl: z.string().optional(),
-	isPublic: z.boolean().optional().default(true),
-	thumbnailUrl: z.string().optional(),
+	githubUrl: z
+		.string()
+		.transform((val) => (val === "" ? undefined : val))
+		.optional(),
+	isPublic: z
+		.boolean()
+		.transform((val) => (val === "" ? undefined : val))
+		.optional()
+		.default(true),
+	thumbnailUrl: z
+		.string()
+		.transform((val) => (val === "" ? undefined : val))
+		.optional(),
 });
 
 // comment schema
