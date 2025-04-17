@@ -8,7 +8,11 @@ import { z } from "zod";
 export const userSchema = z.object({
 	firstName: z.string({ message: "First name is required" }).max(100, { message: "First Name over 100 characters" }),
 	lastName: z.string({ message: "Last name is required" }).max(100, { message: "Last Name over 100 characters" }),
-	nickname: z.string().max(100, { message: "Nickname over 100 characters" }).optional(),
+	nickname: z
+		.string()
+		.max(100, { message: "Nickname over 100 characters" })
+		.transform((val) => (val === "" ? undefined : val))
+		.optional(),
 	username: z.string({ message: "Username is required" }),
 	email: z.string({ message: "Email is required" }).email({ message: "Invalid email address" }),
 	password: z.string({ message: "Password is required" }),
@@ -17,9 +21,16 @@ export const userSchema = z.object({
 		.string()
 		.transform((val) => (val === "" ? undefined : val))
 		.optional(),
-	avatar: z.string().optional(),
+	avatar: z
+		.string()
+		.transform((val) => (val === "" ? undefined : val))
+		.optional(),
 	// While bio is optional, our database will allow up to 500 characters
-	bio: z.string().max(500, { message: "Bio over 500 characters" }).optional(),
+	bio: z
+		.string()
+		.max(500, { message: "Bio over 500 characters" })
+		.transform((val) => (val === "" ? undefined : val))
+		.optional(),
 	githubUrl: z
 		.string()
 		.transform((val) => (val === "" ? undefined : val))
@@ -28,7 +39,10 @@ export const userSchema = z.object({
 			message: "Invalid GitHub URL. Must be in the format https://github.com/<username>",
 		}),
 	// We also need to add this just in case the user either updates their profile or adds this information at signup/onboarding
-	skillLevel: z.string().optional(),
+	skillLevel: z
+		.string()
+		.transform((val) => (val === "" ? undefined : val))
+		.optional(),
 });
 
 export const userUpdateSchema = userSchema.omit({ password: true });
