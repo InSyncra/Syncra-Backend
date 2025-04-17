@@ -13,18 +13,20 @@ export const userSchema = z.object({
 	email: z.string({ message: "Email is required" }).email({ message: "Invalid email address" }),
 	password: z.string({ message: "Password is required" }),
 	birthdate: z.string({ message: "Birthdate is required" }),
-	profession: z.string().optional(),
+	profession: z
+		.string()
+		.transform((val) => (val === "" ? undefined : val))
+		.optional(),
 	avatar: z.string().optional(),
 	// While bio is optional, our database will allow up to 500 characters
 	bio: z.string().max(500, { message: "Bio over 500 characters" }).optional(),
 	githubUrl: z
 		.string()
-		.url({ message: "Invalid URL format" })
-		.refine((value) => /^https:\/\/github\.com\/[a-zA-Z0-9](-?[a-zA-Z0-9])*$/.test(value), {
+		.transform((val) => (val === "" ? undefined : val))
+		.optional()
+		.refine((value) => value === undefined || /^https:\/\/github\.com\/[a-zA-Z0-9](-?[a-zA-Z0-9])*$/.test(value), {
 			message: "Invalid GitHub URL. Must be in the format https://github.com/<username>",
-		})
-		.optional(),
-
+		}),
 	// We also need to add this just in case the user either updates their profile or adds this information at signup/onboarding
 	skillLevel: z.string().optional(),
 });
