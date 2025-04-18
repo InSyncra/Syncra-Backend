@@ -1,6 +1,6 @@
 {
 	"name": "backend-setup",
-	"version": "1.2.2",
+	"version": "1.2.21",
 	"description": "Welcome to the Syncra backend! This project is designed for authorized users to clone and access the codebase.",
 	"main": "src/app.js",
 	"type": "module",
@@ -19,6 +19,7 @@
 		"@commitlint/cli": "^19.8.0",
 		"@commitlint/config-conventional": "^19.8.0",
 		"commitizen": "^4.3.1",
+		"conventional-changelog": "^6.0.0",
 		"cz-conventional-changelog": "^3.3.0",
 		"lefthook": "^1.11.9",
 		"nodemon": "^3.1.9"
@@ -40,7 +41,12 @@
 		"zod": "^3.24.2"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["@prisma/client", "@prisma/engines", "esbuild", "prisma"]
+		"onlyBuiltDependencies": [
+			"@prisma/client",
+			"@prisma/engines",
+			"esbuild",
+			"prisma"
+		]
 	},
 	"config": {
 		"commitizen": {
