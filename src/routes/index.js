@@ -6,6 +6,8 @@ import userRoutes from "./accounts/index.js";
 import authRoutes from "./auth/index.js";
 import projectRoutes from "./projects/index.js";
 import commentRoutes from "./comments/index.js";
+import stripeRoutes from "./webhook/stripe.js";
+import bodyParser from "body-parser";
 const routes = Router();
 
 // Before every route, check if the user is authenticated
@@ -19,10 +21,13 @@ routes.get("/", async (req, res) => {
 });
 
 // Route Imports here
+routes.use("/webhook/stripe", stripeRoutes);
+routes.use(bodyParser.json());
 routes.use("/auth", authRoutes);
 routes.use("/accounts", userRoutes);
 routes.use("/projects", projectRoutes);
 routes.use("/comments", commentRoutes);
+
 
 // for all unavailable routes
 routes.use((_req, _res, next) => {
