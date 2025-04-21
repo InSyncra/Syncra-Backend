@@ -1,42 +1,11 @@
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import cors from "cors";
 import "dotenv/config";
-import express from "express";
-import helmet from "helmet";
-import morgan from "morgan";
 import config from "../config/index.js";
 const { port, environment } = config;
 
 import routes from "./routes/index.js";
+import createServer from "./utils/server.js";
 
-const app = express();
-
-app.use(morgan("dev"));
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const allowedOrigins = ["https://syncra-frontend.vercel.app", "http://localhost:5173", "http://127.0.0.1:5173"];
-
-const corsOptions = {
-	origin: (origin, cb) => {
-		if (!origin) return cb(null, true); // for mobile apps/curl req
-		if (!allowedOrigins.includes(origin)) {
-			return cb(new Error("Not allowed by CORS"));
-		}
-		return cb(null, true);
-	},
-	credentials: true,
-};
-
-app.use(cors(corsOptions));
-
-app.use(
-	helmet.crossOriginResourcePolicy({
-		policy: "cross-origin",
-	}),
-);
+const app = createServer();
 
 // Send welcome to let others know this is the correct Syncra route
 app.get("/", async (req, res) => {
@@ -63,5 +32,3 @@ app.listen(port, () => {
 		console.log("***********************************\n\n");
 	}
 });
-
-export default app;
