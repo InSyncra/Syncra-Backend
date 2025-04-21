@@ -5,6 +5,8 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 
+import routes from "@/routes/index.js";
+
 const allowedOrigins = ["https://syncra-frontend.vercel.app", "http://localhost:5173", "http://127.0.0.1:5173"];
 
 const corsOptions = {
@@ -33,6 +35,16 @@ function createServer() {
 			policy: "cross-origin",
 		}),
 	);
+
+	// Send welcome to let others know this is the correct Syncra route
+	app.get("/", async (req, res) => {
+		res.send(
+			`<h1>Welcome to Syncra backend!</h1> <p>This project is designed for authorized users to clone and access the codebase. Instructions will be posted soon.</p>`,
+		);
+	});
+
+	// Connect all the routes
+	app.use("/api/v1", routes);
 
 	return app;
 }

@@ -1,11 +1,32 @@
+import "dotenv/config";
 import supertest from "supertest";
 import { prisma } from "../utils/prisma.js";
 import createServer from "../utils/server.js";
 
+const successfulResponse = {
+	data: expect.anything(),
+	error: null,
+	success: true
+}
+
+const failedResponse = {
+	data: null,
+	error: expect.any(String),
+	success: false
+}
+
 const app = createServer();
 
 describe("projects", () => {
-	describe("GET /api/v1/projects/:id", () => {
+	describe("Return projects", () => {
+		describe("return all projects", () => {
+			it("should exist as GET /api/v1/projects", async () => {
+				const res = await supertest(app).get("/api/v1/projects")
+				expect(res.status).not.toBe(404)
+			})
+		})
+	})
+	describe("Return a single project", () => {
 		let user;
 		let project;
 		beforeEach(async () => {
@@ -27,8 +48,6 @@ describe("projects", () => {
 					description: "I am a project",
 				},
 			});
-
-			console.log("USER CREATED", user, "PROJECT CREATED", project);
 		});
 
 		afterEach(async () => {
@@ -42,20 +61,26 @@ describe("projects", () => {
 					email: "iamatestuser@demo.com",
 				},
 			});
-			console.log("DELETED TEST USER AND PROJECT");
 		});
-		it("should return a 404 error if project doesn't exist", async () => {
+		it("should exist as GET /api/v1/projects/:projectId", async () => {
+			const id  = project?.id || "project-123456" // doesn't matter the route
+			const res = await supertest(app).get(`/api/v1/projects/${id}`)
+			expect(res.status).not.toBe(404)
+		})
+		it("should return 404, and error response if project doesn't exist", async () => {
 			const projectId = "453804-cdsjisodjc-acdhaiuhi";
-			await supertest(app).get(`/api/v1/projects/${projectId}`).expect(404);
+			const res = await supertest(app).get(`/api/v1/projects/${projectId}`)
+			
+			expect(res.status).toBe(404)
+			expect(res.body).toEqual(failedResponse)
 		});
 
-		it("should return 200 status and project data", async () => {
+		it("should return 200, project data, and appropriate response", async () => {
 			const projectId = project?.id;
-			console.log("PROJECT ID", projectId);
 			const res = await supertest(app).get(`/api/v1/projects/${projectId}`);
 
 			expect(res.status).toBe(200);
-			expect(res.body.id).toBe(project?.id);
+			expect(res.body).toEqual(successfulResponse)
 		});
 	});
 });
