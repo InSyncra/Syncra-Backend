@@ -7,16 +7,6 @@ import createServer from "./utils/server.js";
 
 const app = createServer();
 
-// Send welcome to let others know this is the correct Syncra route
-app.get("/", async (req, res) => {
-	res.send(
-		`<h1>Welcome to Syncra backend!</h1> <p>This project is designed for authorized users to clone and access the codebase. Instructions will be posted soon.</p>`,
-	);
-});
-
-// Connect all the routes
-app.use("/api/v1", routes);
-
 app.listen(port, () => {
 	if (environment === "development") {
 		console.log("\n\n***********************************");
