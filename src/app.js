@@ -8,6 +8,7 @@ import morgan from "morgan";
 import config from "../config/index.js";
 const { port, environment } = config;
 
+import { clerkMiddleware } from "node_modules/@clerk/express/dist/index.js";
 import routes from "./routes/index.js";
 
 const app = express();
@@ -37,6 +38,8 @@ app.use(
 		policy: "cross-origin",
 	}),
 );
+
+app.use(clerkMiddleware({ secretKey: process.env.CLERK_SECRET_KEY }));
 
 // Send welcome to let others know this is the correct Syncra route
 app.get("/", async (req, res) => {

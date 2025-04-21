@@ -25,49 +25,41 @@ export function generateJWT(res, user) {
 }
 
 // Restore user session
-export function restoreUserSession(req, res, next) {
-	const { token } = req.cookies;
+export async function restoreUserSession(req, _res, next) {
 	req.user = null;
 
-	if (!token) return next();
+	if (!req.auth.userId) {
+		return next();
+	}
 
-	return jwt.verify(token, secret, null, async (err, payload) => {
-		if (err) {
-			return next();
-		}
-
-		try {
-			const { id } = payload;
-			const user = await prisma.user.findUniqueOrThrow({
-				where: {
-					id,
-				},
-				select: {
-					id: true,
-					email: true,
-				},
-			});
-			req.user = new ReqUserObject(user.id, user.email);
-			console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
-			return next();
-		} catch (e) {
-			res.clearCookie("token");
-			return next();
-		}
+	const existingUser = await prisma.user.findUnique({
+		where: {
+			id: req.auth.userId,
+		},
+		select: {
+			id: true,
+			email: true,
+		},
 	});
-}
 
-// Routes that require auth
-export function requireAuth(req, _res, next) {
-	if (!req.user) {
-		const error = new Error("This route requires authentication");
-		error.status = 401;
-		error.title = "Unauthorized";
-		return next(error);
+	if (existingUser) {
+		req.user = new ReqUserObject(existingUser);
 	}
 
 	return next();
 }
+
+// Routes that require auth
+// export function requireAuth(req, _res, next) {
+// 	if (!req.user) {
+// 		const error = new Error("This route requires authentication");
+// 		error.status = 401;
+// 		error.title = "Unauthorized";
+// 		return next(error);
+// 	}
+
+// 	return next();
+// }
 
 /**
  * Info of currently logged in user used for request validations and authorizations

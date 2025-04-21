@@ -15,7 +15,6 @@ export const userSchema = z.object({
 		.optional(),
 	username: z.string({ message: "Username is required" }),
 	email: z.string({ message: "Email is required" }).email({ message: "Invalid email address" }),
-	password: z.string({ message: "Password is required" }),
 	birthdate: z.string({ message: "Birthdate is required" }),
 	profession: z
 		.string()

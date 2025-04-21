@@ -25,6 +25,7 @@
 		"nodemon": "^3.1.9"
 	},
 	"dependencies": {
+		"@clerk/express": "^1.4.7",
 		"@prisma/client": "6.6.0",
 		"bcryptjs": "^3.0.2",
 		"body-parser": "^2.2.0",
