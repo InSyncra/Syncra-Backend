@@ -21,8 +21,8 @@
 		"commitizen": "^4.3.1",
 		"conventional-changelog": "^6.0.0",
 		"cz-conventional-changelog": "^3.3.0",
-		"lefthook": "^1.11.11",
-		"nodemon": "^3.1.10"
+		"lefthook": "^1.11.10",
+		"nodemon": "^3.1.9"
 	},
 	"dependencies": {
 		"@prisma/client": "6.6.0",
@@ -36,17 +36,12 @@
 		"jsonwebtoken": "^9.0.2",
 		"morgan": "^1.10.0",
 		"per-env": "^1.0.2",
-		"pg": "^8.15.6",
+		"pg": "^8.14.1",
 		"prisma": "6.6.0",
 		"zod": "^3.24.3"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@prisma/client",
-			"@prisma/engines",
-			"esbuild",
-			"prisma"
-		]
+		"onlyBuiltDependencies": ["@prisma/client", "@prisma/engines", "esbuild", "prisma"]
 	},
 	"config": {
 		"commitizen": {
