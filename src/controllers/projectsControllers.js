@@ -1,3 +1,4 @@
+import { sendResponse } from "@/utils/helpers.js";
 import { prisma } from "../utils/prisma.js";
 import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
 import { projectSchema } from "../utils/validations/zod-schemas.js";
@@ -14,7 +15,7 @@ export const createProject = async (req, res, next) => {
 		const project = await prisma.project.create({
 			data: req.body,
 		});
-		res.status(201).json(project);
+		res.status(201).json(sendResponse({ data: project }));
 	} catch (error) {
 		next(error);
 	}
@@ -30,7 +31,7 @@ export const createProject = async (req, res, next) => {
 export const getAllProjects = async (req, res, next) => {
 	try {
 		const projects = await prisma.project.findMany();
-		res.json(projects);
+		res.json(sendResponse({ data: projects }));
 	} catch (error) {
 		next(error);
 	}
@@ -51,9 +52,9 @@ export const getProjectById = async (req, res, next) => {
 		});
 
 		if (!project) {
-			return res.status(404).json({ error: "Project not found" });
+			return res.status(404).json(sendResponse({ error: "Project not found" }));
 		}
-		res.json(project);
+		res.json(sendResponse({ data: project }));
 	} catch (error) {
 		next(error);
 	}
@@ -70,24 +71,24 @@ export const updateProjectById = async (req, res, next) => {
 	const { id: userId } = req.user;
 
 	try {
-		validateRequestBody(projectSchema);
+		validateRequestBody(projectSchema, req, next);
 		const existingProject = await prisma.project.findUnique({
 			where: { id: projectId },
 		});
 
 		if (!existingProject) {
-			return res.status(404).json({ error: "Project not found" });
+			return res.status(404).json(sendResponse({ error: "Project not found" }));
 		}
 
 		// Only currently logged in user that created the project can update project
-		if (userId !== existingProject.ownerId) return res.status(403).json({ message: "Forbidden" });
+		if (userId !== existingProject.ownerId) return res.status(403).json(sendResponse({ error: "Forbidden" }));
 
 		const updatedProject = await prisma.project.update({
 			where: { id: projectId },
 			data: req.body,
 		});
 
-		res.json(updatedProject);
+		res.json(sendResponse({ data: updatedProject }));
 	} catch (error) {
 		next(error);
 	}
@@ -108,15 +109,15 @@ export const deleteProjectById = async (req, res, next) => {
 			where: { id: projectId },
 		});
 		if (!existingProject) {
-			return res.status(404).json({ error: "Project not found" });
+			return res.status(404).json(sendResponse({ error: "Project not found" }));
 		}
 
-		if (userId !== existingProject.ownerId) return res.status(403).json({ message: "Forbidden" });
+		if (userId !== existingProject.ownerId) return res.status(403).json(sendResponse({ error: "Forbidden" }));
 
 		await prisma.project.delete({
 			where: { id: projectId },
 		});
-		res.status(200).json({ message: "Project deleted successfully" });
+		res.status(200).json(sendResponse({ data: { message: "Project deleted successfully" } }));
 	} catch (error) {
 		next(error);
 	}

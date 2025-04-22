@@ -4,8 +4,8 @@ import { restoreUserSession } from "../utils/auth.js";
 import { PrismaClientValidationError } from "../utils/prisma.js";
 import userRoutes from "./accounts/index.js";
 import authRoutes from "./auth/index.js";
-import projectRoutes from "./projects/index.js";
 import commentRoutes from "./comments/index.js";
+import projectRoutes from "./projects/index.js";
 const routes = Router();
 
 // Before every route, check if the user is authenticated
@@ -46,12 +46,13 @@ routes.use((error, _req, _res, next) => {
 routes.use((error, _req, res, _next) => {
 	const status = error.status || 500;
 	const title = error.title || "Internal Server Error";
-	const message = error.message || "An error occurred while processing your request";
+	const err = error.message || "An error occurred while processing your request";
 
 	const response = {
-		status,
+		data: null,
+		success: false,
 		title,
-		message,
+		error: err,
 	};
 	if (config.environment === "development") {
 		response.stack = error.stack;
