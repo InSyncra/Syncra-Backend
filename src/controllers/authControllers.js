@@ -81,9 +81,9 @@ export async function login(req, res, next) {
 
 		// Generate token after sign in so that user can use Syncra
 		const { hashedPassword, ...userPayload } = user;
-		generateJWT(res, userPayload);
+		const token = generateJWT(res, userPayload);
 
-		return res.status(200).json({ message: "User logged in successfully" });
+		return res.status(200).json({ data: { token }, error: null, success: true });
 	} catch (error) {
 		next(error);
 	}

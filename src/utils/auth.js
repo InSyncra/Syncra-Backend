@@ -26,7 +26,7 @@ export function generateJWT(res, user) {
 
 // Restore user session
 export function restoreUserSession(req, res, next) {
-	const { token } = req.cookies;
+	const token = req.headers.authorization?.split(" ")[1];
 	req.user = null;
 
 	if (!token) return next();
