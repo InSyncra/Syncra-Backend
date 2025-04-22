@@ -10,7 +10,7 @@
 		"start:production": "node src/app.js",
 		"build": "pnpx prisma migrate deploy",
 		"postinstall": "prisma generate",
-		"test": "jest --detectOpenHandles --watchAll"
+		"test": "jest"
 	},
 	"keywords": [],
 	"author": "",
