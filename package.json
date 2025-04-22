@@ -9,7 +9,8 @@
 		"start:development": "nodemon src/app.js",
 		"start:production": "node src/app.js",
 		"build": "pnpx prisma migrate deploy",
-		"postinstall": "prisma generate"
+		"postinstall": "prisma generate",
+		"test": "jest"
 	},
 	"keywords": [],
 	"author": "",
