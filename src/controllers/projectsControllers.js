@@ -1,4 +1,4 @@
-import { sendResponse } from "@/utils/helpers.js";
+import { sendResponse } from "../utils/helpers.js";
 import { prisma } from "../utils/prisma.js";
 import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
 import { projectSchema } from "../utils/validations/zod-schemas.js";

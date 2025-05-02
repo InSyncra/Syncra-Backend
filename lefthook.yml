@@ -5,15 +5,12 @@ pre-commit:
       glob: "*.{js,jsx,ts,tsx}"
       stage_fixed: true
 
-prepare-commit-msg:
-  commands:
-    commitizen:
-      interactive: true
-      run: npx git-cz --hook
-      env:
-        LEFTHOOK: "1"
-
-commit-msg:
-  commands:
-    commitlint:
-      run: npx commitlint --edit $(git rev-parse --absolute-git-dir)/COMMIT_EDITMSG
+pre-push:
+  jobs:
+    - name: Code Quality Check
+      run: pnpm dlx biome check --write {staged_files}
+      glob: "*.{js,jsx,ts,tsx}"
+      stage_fixed: true
+  scripts:
+    "rebase-dev.sh":
+      runner: bash

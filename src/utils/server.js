@@ -5,7 +5,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import routes from "@/routes/index.js";
+import routes from "../routes/index.js";
 
 const allowedOrigins = ["https://syncra-frontend.vercel.app", "http://localhost:5173", "http://127.0.0.1:5173"];
 
