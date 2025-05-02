@@ -1,9 +1,7 @@
 import "dotenv/config";
 import config from "../config/index.js";
-const { port, environment } = config;
-
-import routes from "./routes/index.js";
 import createServer from "./utils/server.js";
+const { port, environment } = config;
 
 const app = createServer();
 

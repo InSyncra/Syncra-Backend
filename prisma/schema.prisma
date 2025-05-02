@@ -21,7 +21,6 @@ model User {
   nickname String?
   username String @unique
   email String @unique
-  hashedPassword String
   birthdate String
   profession String?
   skillLevel String?
@@ -30,27 +29,28 @@ model User {
   githubUrl String?
   pastProjectLinks String[]
   projects Project[]
-  userPrefs UserPrefs? @relation(fields: [userPrefsId], references: [id], onDelete: Cascade)
-  userPrefsId String? @unique
+  subscriptions Subscription[]
+  // userPrefs UserPrefs? @relation(fields: [userPrefsId], references: [id], onDelete: Cascade)
+  // userPrefsId String? @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model UserPrefs {
-  id String @id @default(cuid())
-  user User?
-  networkPrefs String[]
-  conversationPrefs String[]
-  prefersEmailMarketing Boolean @default(true)
-  allowsLocation Boolean @default(false)
-  agreesToPrivacyPolicy Boolean @default(false)
-  agreesToTerms Boolean @default(false)
-  showGithubUrl Boolean @default(true)
-  showProfile Boolean @default(true)
-  galleryPermissions Boolean
-  hardwarePermissions Boolean
-  agreesToCOPPARegulations Boolean
-}
+// model UserPrefs {
+//   id String @id @default(cuid())
+//   user User?
+//   networkPrefs String[]
+//   conversationPrefs String[]
+//   prefersEmailMarketing Boolean @default(true)
+//   allowsLocation Boolean @default(false)
+//   agreesToPrivacyPolicy Boolean @default(false)
+//   agreesToTerms Boolean @default(false)
+//   showGithubUrl Boolean @default(true)
+//   showProfile Boolean @default(true)
+//   galleryPermissions Boolean
+//   hardwarePermissions Boolean
+//   agreesToCOPPARegulations Boolean
+// }
 
 model Project {
   id String @id @default(cuid())
@@ -74,6 +74,25 @@ model Comment {
   projectId String
   body String @db.VarChar(10000)
   likes Int @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  status String // active, canceled
+  priceId String
+  periodStart DateTime
+  periodEnd DateTime
+  cancelAt DateTime?
+  canceledAt DateTime?
+  cancelAtPeriodEnd Boolean? @default(false)
+  subscriptionId String
+  stripeCustomerId String
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
