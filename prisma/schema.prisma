@@ -27,6 +27,7 @@ model User {
   avatar String?
   bio String?
   githubUrl String?
+  clerkId String
   pastProjectLinks String[]
   projects Project[]
   subscriptions Subscription[]
