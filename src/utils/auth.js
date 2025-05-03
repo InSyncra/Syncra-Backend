@@ -100,6 +100,18 @@ export function requireAuth(req, _res, next) {
 	return next();
 }
 
+// Routes that require auth
+// export function requireAuth(req, _res, next) {
+// 	if (!req.user) {
+// 		const error = new Error("This route requires authentication");
+// 		error.status = 401;
+// 		error.title = "Unauthorized";
+// 		return next(error);
+// 	}
+
+// 	return next();
+// }
+
 /**
  * Info of currently logged in user used for request validations and authorizations
  */

@@ -15,7 +15,7 @@ datasource db {
 
 
 model User {
-  id String @id @default(cuid())
+  id String @id @default(cuid()) // linked to clerkId
   firstName String
   lastName String
   nickname String?
@@ -37,6 +37,21 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+// model UserPrefs {
+//   id String @id @default(cuid())
+//   user User?
+//   networkPrefs String[]
+//   conversationPrefs String[]
+//   prefersEmailMarketing Boolean @default(true)
+//   allowsLocation Boolean @default(false)
+//   agreesToPrivacyPolicy Boolean @default(false)
+//   agreesToTerms Boolean @default(false)
+//   showGithubUrl Boolean @default(true)
+//   showProfile Boolean @default(true)
+//   galleryPermissions Boolean
+//   hardwarePermissions Boolean
+//   agreesToCOPPARegulations Boolean
+// }
 // model UserPrefs {
 //   id String @id @default(cuid())
 //   user User?

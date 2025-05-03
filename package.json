@@ -28,7 +28,7 @@
 		"supertest": "^7.1.0"
 	},
 	"dependencies": {
-		"@clerk/express": "^1.4.14",
+		"@clerk/express": "^1.4.7",
 		"@prisma/client": "6.6.0",
 		"bcryptjs": "^3.0.2",
 		"body-parser": "^2.2.0",
@@ -45,11 +45,6 @@
 		"zod": "^3.24.3"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@prisma/client",
-			"@prisma/engines",
-			"esbuild",
-			"prisma"
-		]
+		"onlyBuiltDependencies": ["@prisma/client", "@prisma/engines", "esbuild", "prisma"]
 	}
 }
