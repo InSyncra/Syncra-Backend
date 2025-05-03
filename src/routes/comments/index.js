@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-    createComment,
-    deleteCommentById,
-    getAllComments,
-    getCommentsByProjectId,
-    updateCommentById,
+	createComment,
+	deleteCommentById,
+	getAllComments,
+	getCommentsByProjectId,
+	updateCommentById,
 } from "../../controllers/commentControllers.js";
 import { requireAuth } from "../../utils/auth.js";
 
@@ -24,6 +24,5 @@ commentRoutes.put("/:commentId", requireAuth, updateCommentById);
 
 // delete comment
 commentRoutes.delete("/:id", requireAuth, deleteCommentById);
-
 
 export default commentRoutes;
