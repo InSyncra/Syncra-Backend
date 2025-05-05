@@ -25,6 +25,7 @@
 		"jest": "^29.7.0",
 		"lefthook": "^1.11.12",
 		"nodemon": "^3.1.10",
+		"prisma": "6.7.0",
 		"supertest": "^7.1.0"
 	},
 	"dependencies": {
@@ -41,10 +42,14 @@
 		"morgan": "^1.10.0",
 		"per-env": "^1.0.2",
 		"pg": "^8.15.6",
-		"prisma": "6.7.0",
 		"zod": "^3.24.3"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["@prisma/client", "@prisma/engines", "esbuild", "prisma"]
+		"onlyBuiltDependencies": [
+			"@prisma/client",
+			"@prisma/engines",
+			"esbuild",
+			"prisma"
+		]
 	}
 }
