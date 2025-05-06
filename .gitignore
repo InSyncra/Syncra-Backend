@@ -3,3 +3,4 @@
 **/notes.md
 **/.turbo
 .vercel
+src/generated/prisma

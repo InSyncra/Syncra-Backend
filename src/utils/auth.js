@@ -9,52 +9,83 @@ const isProduction = config.environment === "production";
 const { secret, expiresIn } = config.jwtConfig;
 
 // Create and set jwt token in cookies (login & signup)
-export function generateJWT(res, user) {
-	const token = jwt.sign({ id: user.id, email: user.email }, secret, {
-		expiresIn: Number.parseInt(expiresIn), // 604,800 seconds = 1 week
-	});
+// DEPRECATED: Not needed
+// export function generateJWT(res, user) {
+// 	const token = jwt.sign({ id: user.id, email: user.email }, secret, {
+// 		expiresIn: Number.parseInt(expiresIn), // 604,800 seconds = 1 week
+// 	});
 
-	res.cookie("token", token, {
-		httpOnly: true,
-		secure: isProduction,
-		maxAge: Number.parseInt(expiresIn) * 1000,
-		sameSite: isProduction && "Lax",
-	});
+// 	res.cookie("token", token, {
+// 		httpOnly: true,
+// 		secure: isProduction,
+// 		maxAge: Number.parseInt(expiresIn) * 1000,
+// 		sameSite: isProduction && "Lax",
+// 	});
 
-	return token;
-}
+// 	return token;
+// }
 
 // Restore user session
-export function restoreUserSession(req, res, next) {
-	const { token } = req.cookies;
+export async function restoreUserSession(req, res, next) {
 	req.user = null;
 
-	if (!token) return next();
+	// Clerk middleware grabs JWT session from headers and returns
+	// req.auth object (User auth info)
+	// Only using req.user for consistency and to prevent having to rewrite all routes
+	if (!req.auth.userId) {
+		return next();
+	}
 
-	return jwt.verify(token, secret, null, async (err, payload) => {
-		if (err) {
-			return next();
-		}
+	const user = await prisma.user.findUnique({
+		where: {
+			clerkId: req.auth.userId,
+		},
 
-		try {
-			const { id } = payload;
-			const user = await prisma.user.findUniqueOrThrow({
-				where: {
-					id,
-				},
-				select: {
-					id: true,
-					email: true,
-				},
-			});
-			req.user = new ReqUserObject(user.id, user.email);
-			console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
-			return next();
-		} catch (e) {
-			res.clearCookie("token");
-			return next();
-		}
+		select: {
+			id: true,
+			email: true,
+		},
 	});
+
+	if (!user) {
+		req.user = null; // SAFETY NET: just in case there's a user stored
+		return next();
+	}
+
+	req.user = new ReqUserObject(user?.id, user?.email);
+	console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
+
+	return next();
+
+	// const token = req.headers.authorization?.split(" ")[1];
+	// req.user = null;
+
+	// if (!token) return next();
+
+	// return jwt.verify(token, secret, null, async (err, payload) => {
+	// 	if (err) {
+	// 		return next();
+	// 	}
+
+	// 	try {
+	// 		const { id } = payload;
+	// 		const user = await prisma.user.findUniqueOrThrow({
+	// 			where: {
+	// 				id,
+	// 			},
+	// 			select: {
+	// 				id: true,
+	// 				email: true,
+	// 			},
+	// 		});
+	// 		req.user = new ReqUserObject(user.id, user.email);
+	// 		console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
+	// 		return next();
+	// 	} catch (e) {
+	// 		res.clearCookie("token");
+	// 		return next();
+	// 	}
+	// });
 }
 
 // Routes that require auth
@@ -68,6 +99,18 @@ export function requireAuth(req, _res, next) {
 
 	return next();
 }
+
+// Routes that require auth
+// export function requireAuth(req, _res, next) {
+// 	if (!req.user) {
+// 		const error = new Error("This route requires authentication");
+// 		error.status = 401;
+// 		error.title = "Unauthorized";
+// 		return next(error);
+// 	}
+
+// 	return next();
+// }
 
 /**
  * Info of currently logged in user used for request validations and authorizations
