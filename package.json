@@ -45,11 +45,6 @@
 		"zod": "^3.24.3"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@prisma/client",
-			"@prisma/engines",
-			"esbuild",
-			"prisma"
-		]
+		"onlyBuiltDependencies": ["@prisma/client", "@prisma/engines", "esbuild", "prisma"]
 	}
 }
