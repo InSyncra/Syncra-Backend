@@ -16,8 +16,7 @@ commit:
 # Run the project in dev mode
 run:
 	docker compose up -d
-	concurrently "pnpm start" "pnpx prisma studio"
-
+	pnpm start
 
 # Stop the docker containers
 stop:
