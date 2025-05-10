@@ -1,3 +1,5 @@
+// import { requireAuth } from "../../utils/auth.js";
+import { requireAuth } from "@clerk/express";
 import { Router } from "express";
 import {
 	createProject,
@@ -6,12 +8,11 @@ import {
 	getProjectById,
 	updateProjectById,
 } from "../../controllers/projectsControllers.js";
-import { requireAuth } from "../../utils/auth.js";
 
 const projectRoutes = Router();
 
 // create a new project
-projectRoutes.post("/", requireAuth, createProject);
+projectRoutes.post("/", requireAuth({ signInUrl: "/sign-in" }), createProject);
 
 // get all projects
 projectRoutes.get("/", getAllProjects);
@@ -20,9 +21,9 @@ projectRoutes.get("/", getAllProjects);
 projectRoutes.get("/:id", getProjectById);
 
 // update project
-projectRoutes.put("/:id", requireAuth, updateProjectById);
+projectRoutes.put("/:id", requireAuth({ signInUrl: "/sign-in" }), updateProjectById);
 
 // delete project
-projectRoutes.delete("/:id", requireAuth, deleteProjectById);
+projectRoutes.delete("/:id", requireAuth({ signInUrl: "/sign-in" }), deleteProjectById);
 
 export default projectRoutes;

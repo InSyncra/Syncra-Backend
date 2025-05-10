@@ -1,11 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -13,67 +8,101 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id String @id @default(cuid())
-  firstName String
-  lastName String
-  nickname String?
-  username String @unique
-  email String @unique
-  hashedPassword String
-  birthdate String
-  profession String?
-  skillLevel String?
-  avatar String?
-  bio String?
-  githubUrl String?
+  id               String         @id @default(cuid()) // linked to clerkId
+  firstName        String
+  lastName         String
+  nickname         String?
+  username         String         @unique
+  email            String         @unique
+  birthdate        String
+  profession       String?
+  skillLevel       String?
+  avatar           String?
+  bio              String?
+  githubUrl        String?
+  clerkId          String
   pastProjectLinks String[]
-  projects Project[]
-  userPrefs UserPrefs? @relation(fields: [userPrefsId], references: [id], onDelete: Cascade)
-  userPrefsId String? @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  projects         Project[]
+  subscriptions    Subscription[]
+  // userPrefs UserPrefs? @relation(fields: [userPrefsId], references: [id], onDelete: Cascade)
+  // userPrefsId String? @unique
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
 }
 
-model UserPrefs {
-  id String @id @default(cuid())
-  user User?
-  networkPrefs String[]
-  conversationPrefs String[]
-  prefersEmailMarketing Boolean @default(true)
-  allowsLocation Boolean @default(false)
-  agreesToPrivacyPolicy Boolean @default(false)
-  agreesToTerms Boolean @default(false)
-  showGithubUrl Boolean @default(true)
-  showProfile Boolean @default(true)
-  galleryPermissions Boolean
-  hardwarePermissions Boolean
-  agreesToCOPPARegulations Boolean
-}
+// model UserPrefs {
+//   id String @id @default(cuid())
+//   user User?
+//   networkPrefs String[]
+//   conversationPrefs String[]
+//   prefersEmailMarketing Boolean @default(true)
+//   allowsLocation Boolean @default(false)
+//   agreesToPrivacyPolicy Boolean @default(false)
+//   agreesToTerms Boolean @default(false)
+//   showGithubUrl Boolean @default(true)
+//   showProfile Boolean @default(true)
+//   galleryPermissions Boolean
+//   hardwarePermissions Boolean
+//   agreesToCOPPARegulations Boolean
+// }
+// model UserPrefs {
+//   id String @id @default(cuid())
+//   user User?
+//   networkPrefs String[]
+//   conversationPrefs String[]
+//   prefersEmailMarketing Boolean @default(true)
+//   allowsLocation Boolean @default(false)
+//   agreesToPrivacyPolicy Boolean @default(false)
+//   agreesToTerms Boolean @default(false)
+//   showGithubUrl Boolean @default(true)
+//   showProfile Boolean @default(true)
+//   galleryPermissions Boolean
+//   hardwarePermissions Boolean
+//   agreesToCOPPARegulations Boolean
+// }
 
 model Project {
-  id String @id @default(cuid())
-  ownerId String
-  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-  title String @db.VarChar(100)
-  description String? @db.VarChar(10000)
-  thumbnailUrl String?
-  githubUrl String?
-  viewsCount Int @default(0)
-  likesCount Int @default(0)
-  interestsCount Int @default(0)
-  isPublic Boolean @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(cuid())
+  ownerId        String
+  owner          User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  title          String   @db.VarChar(100)
+  description    String?  @db.VarChar(10000)
+  thumbnailUrl   String?
+  githubUrl      String?
+  viewsCount     Int      @default(0)
+  likesCount     Int      @default(0)
+  interestsCount Int      @default(0)
+  isPublic       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Comment {
-  id String @id @default(cuid())
-  userId String
+  id        String   @id @default(cuid())
+  userId    String
   projectId String
-  body String @db.VarChar(10000)
-  likes Int @default(0)
+  body      String   @db.VarChar(10000)
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  status            String // active, canceled
+  priceId           String // from stripe price object or where it mentions price (NOT amount)
+  periodStart       DateTime // from stripe startDate
+  periodEnd         DateTime // from stripe endDate
+  cancelAt          DateTime?
+  canceledAt        DateTime?
+  cancelAtPeriodEnd Boolean?  @default(false)
+  subscriptionId    String // from Stripe susbcription
+  stripeCustomerId  String // from Stripe customer
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
