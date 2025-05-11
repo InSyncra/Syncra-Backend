@@ -29,7 +29,7 @@
 		"supertest": "^7.1.0"
 	},
 	"dependencies": {
-		"@clerk/express": "^1.4.7",
+		"@clerk/express": "^1.4.17",
 		"@prisma/client": "6.6.0",
 		"bcryptjs": "^3.0.2",
 		"body-parser": "^2.2.0",

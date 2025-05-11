@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@clerk/express':
-        specifier: ^1.4.7
-        version: 1.4.14(express@4.21.2)(react@19.1.0)
+        specifier: ^1.4.17
+        version: 1.4.17(express@4.21.2)(react@19.1.0)
       '@prisma/client':
         specifier: 6.6.0
         version: 6.6.0(prisma@6.7.0)
@@ -713,8 +713,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@clerk/backend@1.31.2':
-    resolution: {integrity: sha512-erTTcxY/ClMCvkL2UzaxZtS86kcyHN/RycIsniwR273v2WIeQSWy2P+5pfQ9NsCGn4DvyO1iwdCHZmcOlSxy1w==}
+  '@clerk/backend@1.32.0':
+    resolution: {integrity: sha512-D0hC2mnU79wM4q8GU5ZFrMD3p9lHy3aM+qDi9WqD3L40d65JJ+lzD+rKSqfM5/gDtUWUdD2Ezvqa0ZObRXTcgg==}
     engines: {node: '>=18.17.0'}
     peerDependencies:
       svix: ^1.62.0
@@ -722,14 +722,14 @@ packages:
       svix:
         optional: true
 
-  '@clerk/express@1.4.14':
-    resolution: {integrity: sha512-iZ3D1O/3wF4pINHILd7D0FMZZdLTxaKZhCHsR/K8ZqrxGRqI7FVgn7SMxR0okW2h/vf6e8ikuvedYGc7T7TwNw==}
+  '@clerk/express@1.4.17':
+    resolution: {integrity: sha512-D85UUQLvW5YRxbsRLQ4KWu6cpPCMcvY3PZBsvkJOMYTy0s/AUWU3PL9D4P4ohTvlq5n+WaJlr1QMCxqg5YNQng==}
     engines: {node: '>=18.17.0'}
     peerDependencies:
       express: ^4.17.0 || ^5.0.0
 
-  '@clerk/shared@3.7.8':
-    resolution: {integrity: sha512-+cjMDYORJ73pHp1vsn/6jaMPjSVeU01oXyHTTm3e3pm0C7YShMxEklVkZYg8uVEhAfNKSqdqwo3EKR4tuLEabw==}
+  '@clerk/shared@3.8.2':
+    resolution: {integrity: sha512-y8g8/wbFo/3gCRsrk2rmGQ1uzIb8lPM4Wjggt4glC8mPqTGgMFuIAK0Sj0PAJOq5739sokFXc4CzZdMnu/P5ug==}
     engines: {node: '>=18.17.0'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0 || ^19.0.0-0
@@ -740,8 +740,8 @@ packages:
       react-dom:
         optional: true
 
-  '@clerk/types@4.56.3':
-    resolution: {integrity: sha512-DZ3Ge/SQClMqDw0kR1IZKN/xKpvLAIxYcj/TtswXK4rZK+CrlljHvRkViUMXNV0CAYHKVOSPdWnIyRE8OedPpA==}
+  '@clerk/types@4.58.0':
+    resolution: {integrity: sha512-P30Vnqaw2UzoSZivNG61NvF9WiAVbKItOvkVJzUbwqDkISdmNOio8mWCeFuKq+bxjPESvS+S615Uplm7dl6jpg==}
     engines: {node: '>=18.17.0'}
 
   '@esbuild/aix-ppc64@0.25.3':
@@ -2505,8 +2505,8 @@ packages:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
 
-  type-fest@4.40.1:
-    resolution: {integrity: sha512-9YvLNnORDpI+vghLU/Nf+zSv0kL47KbVJ1o3sKgoTefl6i+zebxbiDQWoe/oWWqPhIgQdRZRT1KA9sCPL810SA==}
+  type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
     engines: {node: '>=16'}
 
   type-is@1.6.18:
@@ -3369,10 +3369,10 @@ snapshots:
   '@biomejs/cli-win32-x64@1.9.4':
     optional: true
 
-  '@clerk/backend@1.31.2(react@19.1.0)':
+  '@clerk/backend@1.32.0(react@19.1.0)':
     dependencies:
-      '@clerk/shared': 3.7.8(react@19.1.0)
-      '@clerk/types': 4.56.3
+      '@clerk/shared': 3.8.2(react@19.1.0)
+      '@clerk/types': 4.58.0
       cookie: 1.0.2
       snakecase-keys: 8.0.1
       tslib: 2.8.1
@@ -3380,11 +3380,11 @@ snapshots:
       - react
       - react-dom
 
-  '@clerk/express@1.4.14(express@4.21.2)(react@19.1.0)':
+  '@clerk/express@1.4.17(express@4.21.2)(react@19.1.0)':
     dependencies:
-      '@clerk/backend': 1.31.2(react@19.1.0)
-      '@clerk/shared': 3.7.8(react@19.1.0)
-      '@clerk/types': 4.56.3
+      '@clerk/backend': 1.32.0(react@19.1.0)
+      '@clerk/shared': 3.8.2(react@19.1.0)
+      '@clerk/types': 4.58.0
       express: 4.21.2
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -3392,9 +3392,9 @@ snapshots:
       - react-dom
       - svix
 
-  '@clerk/shared@3.7.8(react@19.1.0)':
+  '@clerk/shared@3.8.2(react@19.1.0)':
     dependencies:
-      '@clerk/types': 4.56.3
+      '@clerk/types': 4.58.0
       dequal: 2.0.3
       glob-to-regexp: 0.4.1
       js-cookie: 3.0.5
@@ -3403,7 +3403,7 @@ snapshots:
     optionalDependencies:
       react: 19.1.0
 
-  '@clerk/types@4.56.3':
+  '@clerk/types@4.58.0':
     dependencies:
       csstype: 3.1.3
 
@@ -5313,7 +5313,7 @@ snapshots:
     dependencies:
       map-obj: 4.3.0
       snake-case: 3.0.4
-      type-fest: 4.40.1
+      type-fest: 4.41.0
 
   source-map-support@0.5.13:
     dependencies:
@@ -5418,7 +5418,7 @@ snapshots:
 
   type-fest@0.21.3: {}
 
-  type-fest@4.40.1: {}
+  type-fest@4.41.0: {}
 
   type-is@1.6.18:
     dependencies:
