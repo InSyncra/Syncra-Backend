@@ -26,7 +26,7 @@
 		"lefthook": "^1.11.12",
 		"nodemon": "^3.1.10",
 		"prisma": "6.7.0",
-		"supertest": "^7.1.0"
+		"supertest": "^7.1.1"
 	},
 	"dependencies": {
 		"@clerk/express": "^1.4.17",
