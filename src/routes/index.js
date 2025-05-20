@@ -1,29 +1,28 @@
-import { clerkMiddleware } from "@clerk/express";
-import { Router } from "express";
-import config from "../../config/index.js";
+import express from "express";
+import config from "../config/index.js";
 import { restoreUserSession } from "../utils/auth.js";
 import { PrismaClientValidationError } from "../utils/prisma.js";
 import userRoutes from "./accounts/index.js";
 import authRoutes from "./auth/index.js";
 import commentRoutes from "./comments/index.js";
 import projectRoutes from "./projects/index.js";
-const routes = Router();
+const routes = express.Router();
 
+routes.use(express.json());
+routes.use(express.urlencoded({ extended: true }));
+
+// Send welcome to let others know this is the correct Syncra route
 routes.get("/", async (req, res) => {
 	res.send(
 		`<h1>Welcome to Syncra backend!</h1> <p>This project is designed for authorized users to clone and access the codebase. Instructions will be posted soon.</p>`,
 	);
 });
 
-// Before every route, check if the user is authenticated
-// Process happens via Clerk
-// routes.use(clerkMiddleware({ secretKey: process.env.CLERK_SECRET_KEY }));
-
 // Route Imports here
 routes.use("/auth", authRoutes);
 
 // Adds req.user to request to compare details
-routes.use(restoreUserSession);
+// routes.use(restoreUserSession);
 
 routes.use("/accounts", userRoutes);
 routes.use("/projects", projectRoutes);
