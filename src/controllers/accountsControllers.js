@@ -120,9 +120,11 @@ export async function deleteUserById(req, res, next) {
 			where: { id },
 		});
 
-		res.clearCookie("token");
-		const message = { message: "Account deleted successfully" };
-		res.status(200).json(message);
+		req.logout((err) => {
+			if (err) return next(err);
+			const message = { message: "Account deleted successfully" };
+			res.status(200).json(message);
+		});
 	} catch (error) {
 		next(error);
 	}
