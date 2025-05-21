@@ -1,6 +1,16 @@
 name: Run Integration Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore: 
+      - main
+      - dev
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+      - dev
+  workflow_dispatch: 
 
 jobs:
   test:

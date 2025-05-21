@@ -1,12 +1,13 @@
 name: Linting and Formatting
 
 on:
-  push:
+  workflow_dispatch:
+  pull_request:
     branches:
       - main
       - dev
-  pull_request:
-    branches:
+  push:
+    branches-ignore: 
       - main
       - dev
 
@@ -15,7 +16,7 @@ jobs:
     name: Linter and Formatter 
     strategy:
       matrix:
-        node: [20.x, 22.x]
+        node: [18.x, 22.x, 23.x]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
