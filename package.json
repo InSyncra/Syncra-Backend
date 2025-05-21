@@ -32,6 +32,7 @@
 		"@prisma/client": "6.8.2",
 		"bcryptjs": "^3.0.2",
 		"connect-pg-simple": "^10.0.0",
+		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
 		"dotenv": "^16.5.0",
 		"express": "^4.21.2",
@@ -44,6 +45,7 @@
 		"passport-local": "^1.0.0",
 		"per-env": "^1.0.2",
 		"pg": "^8.16.0",
+		"stripe": "^18.1.1",
 		"winston": "^3.17.0",
 		"zod": "^3.24.3"
 	},

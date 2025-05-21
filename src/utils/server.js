@@ -11,17 +11,6 @@ import routes from "../routes/index.js";
 
 const allowedOrigins = ["https://syncra-frontend.vercel.app", "http://localhost:5173", "http://127.0.0.1:5173"];
 
-const corsOptions = {
-	origin: (origin, cb) => {
-		if (!origin) return cb(null, true); // for mobile apps/curl req
-		if (!allowedOrigins.includes(origin)) {
-			return cb(new Error("Not allowed by CORS"));
-		}
-		return cb(null, true);
-	},
-	credentials: true,
-};
-
 const { auth, dbUrl, environment } = config;
 
 const isProduction = environment === "production";
@@ -43,7 +32,12 @@ export default function createServer() {
 		}),
 	);
 
-	app.use(cors(corsOptions));
+	app.use(
+		cors({
+			credentials: true,
+			origin: allowedOrigins,
+		}),
+	);
 
 	// NEW SETUP FOR AUTHENTICATION 5-20-25
 	app.use(

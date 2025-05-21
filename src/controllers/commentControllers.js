@@ -1,6 +1,6 @@
-import { prisma } from "../utils/prisma.js";
-import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
-import { commentSchema } from "../utils/validations/zod-schemas.js";
+import { prisma } from "../lib/prisma.js";
+// import { commentSchema } from "../schemas/comment.js";
+// import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
 
 // create a new comment
 /**
@@ -14,7 +14,7 @@ export const createComment = async (req, res, next) => {
 
 	try {
 		// Now validate the sanitized body
-		validateRequestBody(commentSchema, req, next);
+		// validateRequestBody(commentSchema, req, next);
 
 		// Get projectId from route parameters or session instead of req.body
 		const projectIdFromParams = req.params.projectId;
@@ -86,7 +86,7 @@ export const getCommentsByProjectId = async (req, res, next) => {
 export const updateCommentById = async (req, res, next) => {
 	const { commentId } = req.params;
 	try {
-		validateRequestBody(commentSchema, req, next);
+		// validateRequestBody(commentSchema, req, next);
 		const existingComment = await prisma.comment.findUnique({
 			where: { id: commentId },
 		});

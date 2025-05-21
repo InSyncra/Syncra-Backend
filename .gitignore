@@ -4,3 +4,4 @@
 **/.turbo
 .vercel
 src/generated/prisma
+*.log
