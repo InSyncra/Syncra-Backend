@@ -29,22 +29,32 @@
 		"supertest": "^7.1.1"
 	},
 	"dependencies": {
-		"@clerk/express": "^1.4.19",
 		"@prisma/client": "6.8.2",
 		"bcryptjs": "^3.0.2",
-		"body-parser": "^2.2.0",
+		"connect-pg-simple": "^10.0.0",
 		"cookie-parser": "^1.4.7",
 		"cors": "^2.8.5",
 		"dotenv": "^16.5.0",
 		"express": "^4.21.2",
+		"express-session": "^1.18.1",
 		"helmet": "^8.1.0",
 		"jsonwebtoken": "^9.0.2",
 		"morgan": "^1.10.0",
+		"passport": "^0.7.0",
+		"passport-google-oauth20": "^2.0.0",
+		"passport-local": "^1.0.0",
 		"per-env": "^1.0.2",
 		"pg": "^8.16.0",
+		"stripe": "^18.1.1",
+		"winston": "^3.17.0",
 		"zod": "^3.24.3"
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["@prisma/client", "@prisma/engines", "esbuild", "prisma"]
+		"onlyBuiltDependencies": [
+			"@prisma/client",
+			"@prisma/engines",
+			"esbuild",
+			"prisma"
+		]
 	}
 }

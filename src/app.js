@@ -1,5 +1,5 @@
 import "dotenv/config";
-import config from "../config/index.js";
+import config from "./config/index.js";
 import createServer from "./utils/server.js";
 const { port, environment } = config;
 

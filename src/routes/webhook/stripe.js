@@ -1,18 +1,14 @@
-
 import express from "express";
-import Stripe from "stripe";
+import config from "../../config/index.js";
+import { stripe } from "../../lib/stripe.js";
 
+const { stripe: stripeConfig } = config;
 
 const router = express.Router();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-
-	apiVersion: "2023-10-16",
-});
-
 router.post("/", express.raw({ type: "application/json" }), async (req, res) => {
 	const sig = req.headers["stripe-signature"];
-	const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+	const endpointSecret = stripeConfig.webhookSecret;
 
 	let event;
 

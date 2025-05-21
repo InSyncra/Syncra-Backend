@@ -1,12 +1,15 @@
 /* 
     Functions to handle user authentication
 */
-import jwt from "jsonwebtoken";
-import config from "../../config/index.js";
-import { prisma } from "../utils/prisma.js";
+// import jwt from "jsonwebtoken";
+// import config from "../config/index.js";
+// import { prisma } from "../lib/prisma.js";
 
-const isProduction = config.environment === "production";
-const { secret, expiresIn } = config.jwtConfig;
+// import { prisma } from "src/lib/prisma.js";
+// import { sendErrorResponse } from "./responses";
+
+// const isProduction = config.environment === "production";
+// const { secret, expiresIn } = config.jwtConfig;
 
 // Create and set jwt token in cookies (login & signup)
 // DEPRECATED: Not needed
@@ -26,79 +29,81 @@ const { secret, expiresIn } = config.jwtConfig;
 // }
 
 // Restore user session
-export async function restoreUserSession(req, res, next) {
-	req.user = null;
+// DEPRECATED: handled by Express Session/Passport
+// export async function restoreUserSession(req, res, next) {
+// 	req.user = null;
 
-	// Clerk middleware grabs JWT session from headers and returns
-	// req.auth object (User auth info)
-	// Only using req.user for consistency and to prevent having to rewrite all routes
-	if (!req.auth.userId) {
-		return next();
-	}
+// 	// Clerk middleware grabs JWT session from headers and returns
+// 	// req.auth object (User auth info)
+// 	// Only using req.user for consistency and to prevent having to rewrite all routes
+// 	if (!req.auth.userId) {
+// 		return next();
+// 	}
 
-	const user = await prisma.user.findUnique({
-		where: {
-			clerkId: req.auth.userId,
-		},
+// 	const user = await prisma.user.findUnique({
+// 		where: {
+// 			clerkId: req.auth.userId,
+// 		},
 
-		select: {
-			id: true,
-			email: true,
-		},
-	});
+// 		select: {
+// 			id: true,
+// 			email: true,
+// 		},
+// 	});
 
-	if (!user) {
-		req.user = null; // SAFETY NET: just in case there's a user stored
-		return next();
-	}
+// 	if (!user) {
+// 		req.user = null; // SAFETY NET: just in case there's a user stored
+// 		return next();
+// 	}
 
-	req.user = new ReqUserObject(user?.id, user?.email);
-	console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
+// 	req.user = new ReqUserObject(user?.id, user?.email);
+// 	console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
 
-	return next();
+// 	return next();
 
-	// const token = req.headers.authorization?.split(" ")[1];
-	// req.user = null;
+// 	// const token = req.headers.authorization?.split(" ")[1];
+// 	// req.user = null;
 
-	// if (!token) return next();
+// 	// if (!token) return next();
 
-	// return jwt.verify(token, secret, null, async (err, payload) => {
-	// 	if (err) {
-	// 		return next();
-	// 	}
+// 	// return jwt.verify(token, secret, null, async (err, payload) => {
+// 	// 	if (err) {
+// 	// 		return next();
+// 	// 	}
 
-	// 	try {
-	// 		const { id } = payload;
-	// 		const user = await prisma.user.findUniqueOrThrow({
-	// 			where: {
-	// 				id,
-	// 			},
-	// 			select: {
-	// 				id: true,
-	// 				email: true,
-	// 			},
-	// 		});
-	// 		req.user = new ReqUserObject(user.id, user.email);
-	// 		console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
-	// 		return next();
-	// 	} catch (e) {
-	// 		res.clearCookie("token");
-	// 		return next();
-	// 	}
-	// });
-}
+// 	// 	try {
+// 	// 		const { id } = payload;
+// 	// 		const user = await prisma.user.findUniqueOrThrow({
+// 	// 			where: {
+// 	// 				id,
+// 	// 			},
+// 	// 			select: {
+// 	// 				id: true,
+// 	// 				email: true,
+// 	// 			},
+// 	// 		});
+// 	// 		req.user = new ReqUserObject(user.id, user.email);
+// 	// 		console.log(`[${new Date().toISOString()}] Request from User ${user.id}`);
+// 	// 		return next();
+// 	// 	} catch (e) {
+// 	// 		res.clearCookie("token");
+// 	// 		return next();
+// 	// 	}
+// 	// });
+// }
 
 // Routes that require auth
-export function requireAuth(req, _res, next) {
-	if (!req.user) {
-		const error = new Error("This route requires authentication");
-		error.status = 401;
-		error.title = "Unauthorized";
-		return next(error);
-	}
+// DEPRECATED: use requireAuth from 'src/middlewares/auth.js'
+// export function requireAuth(req, _res, next) {
+// 	if (!req.user) {
+// 		const error = new Error("This route requires authentication");
+// 		error.status = 401;
+// 		error.title = "Unauthorized";
+// 		return next(error);
+// 	}
 
-	return next();
-}
+// 	return next();
+// }
 
 // Routes that require auth
 // export function requireAuth(req, _res, next) {
@@ -114,15 +119,17 @@ export function requireAuth(req, _res, next) {
 
 /**
  * Info of currently logged in user used for request validations and authorizations
+ * DEPRECATED: Handled by Express Session
  */
-class ReqUserObject {
-	/**
-	 *
-	 * @param {string} id - User Id retrieved from database
-	 * @param {string} email - User' email retrieved from database
-	 */
-	constructor(id, email) {
-		this.id = id;
-		this.email = email;
-	}
-}
+// class ReqUserObject {
+// 	/**
+// 	 *
+// 	 * @param {string} id - User Id retrieved from database
+// 	 * @param {string} email - User' email retrieved from database
+// 	 */
+// 	constructor(id, email) {
+// 		this.id = id;
+// 		this.email = email;
+// 	}
+// }
+

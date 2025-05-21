@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { deleteUserById, getAllUsers, getUserById, updateUserById } from "../../controllers/accountsControllers.js";
-import { requireAuth } from "../../utils/auth.js";
+import { requireAuth } from "../../middlewares/auth.js";
+// import { requireAuth } from "../../utils/auth.js";
 
 const userRoutes = Router();
 

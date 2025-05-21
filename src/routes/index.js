@@ -1,73 +1,51 @@
-import { clerkMiddleware } from "@clerk/express";
-import { Router } from "express";
-import config from "../../config/index.js";
-import { restoreUserSession } from "../utils/auth.js";
-import { PrismaClientValidationError } from "../utils/prisma.js";
+import express from "express";
+import { errorHandler, prismaClientValidationError, resourceNotFoundError } from "../middlewares/errorHandlers.js";
 import userRoutes from "./accounts/index.js";
 import authRoutes from "./auth/index.js";
 import commentRoutes from "./comments/index.js";
 import projectRoutes from "./projects/index.js";
-const routes = Router();
+import router from "./webhook/stripe.js";
+const routes = express.Router();
 
+/* 
+	TO RUBEN: When you add your webhooks, add them before the express.json() middleware.
+
+	Stripe requires the raw json format, and express.json() parses to an actual JS Object, which for some reason errors out when both middlewares are used.
+*/
+
+routes.use(express.json());
+routes.use(express.urlencoded({ extended: true }));
+
+// Send welcome to let others know this is the correct Syncra route
 routes.get("/", async (req, res) => {
 	res.send(
 		`<h1>Welcome to Syncra backend!</h1> <p>This project is designed for authorized users to clone and access the codebase. Instructions will be posted soon.</p>`,
 	);
 });
 
-// Before every route, check if the user is authenticated
-// Process happens via Clerk
-// routes.use(clerkMiddleware({ secretKey: process.env.CLERK_SECRET_KEY }));
-
 // Route Imports here
 routes.use("/auth", authRoutes);
 
 // Adds req.user to request to compare details
-routes.use(restoreUserSession);
+// DEPRECATED: Handled by passport
+// routes.use(restoreUserSession);
 
 routes.use("/accounts", userRoutes);
 routes.use("/projects", projectRoutes);
 routes.use("/comments", commentRoutes);
 
-// for all unavailable routes
-routes.use((_req, _res, next) => {
-	const error = new Error("Requested resource not found");
-	error.status = 404;
-	error.title = "404 Not Found";
-	next(error);
+// Health check to make sure server is still running
+router.get("/health", (_, res) => {
+	res.sendStatus(200);
 });
+
+// for all unavailable routes
+routes.use("*", resourceNotFoundError);
 
 // check for Prisma Validation Errors
-routes.use((error, _req, _res, next) => {
-	if (error instanceof PrismaClientValidationError) {
-		const name = error.name;
-		error.status = 400;
-		error.title = name;
-	}
-	return next(error);
-});
+routes.use(prismaClientValidationError);
 
 // error handler
-routes.use((error, _req, res, _next) => {
-	const status = error.status || 500;
-	const title = error.title || "Internal Server Error";
-	const err = error.message || "An error occurred while processing your request";
-
-	const response = {
-		data: null,
-		success: false,
-		title,
-		error: err,
-	};
-	if (config.environment === "development") {
-		response.stack = error.stack;
-	}
-
-	if (error.errors) {
-		response.errors = error.errors;
-	}
-	console.error(response);
-	return res.status(status).json(response);
-});
+routes.use(errorHandler);
 
 export default routes;

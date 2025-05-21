@@ -6,7 +6,8 @@ import {
 	getCommentsByProjectId,
 	updateCommentById,
 } from "../../controllers/commentControllers.js";
-import { requireAuth } from "../../utils/auth.js";
+// import { requireAuth } from "../../utils/auth.js";
+import { requireAuth } from "../../middlewares/auth.js";
 
 const commentRoutes = Router();
 

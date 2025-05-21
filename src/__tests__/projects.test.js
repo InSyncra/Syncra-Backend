@@ -1,6 +1,6 @@
 import "dotenv/config";
 import supertest from "supertest";
-import { prisma } from "../utils/prisma.js";
+import { prisma } from "../lib/prisma.js";
 import createServer from "../utils/server.js";
 
 const baseUrl = "/api/v1";

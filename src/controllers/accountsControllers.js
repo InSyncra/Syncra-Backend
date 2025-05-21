@@ -1,6 +1,6 @@
-import { prisma } from "../utils/prisma.js";
-import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
-import { userUpdateSchema } from "../utils/validations/zod-schemas.js";
+import { prisma } from "../lib/prisma.js";
+// import { validateRequestBody } from "../utils/validations/zod-error-formatter.js";
+// import { userUpdateSchema } from "../utils/validations/zod-schemas.js";
 
 /**
  *
@@ -120,9 +120,11 @@ export async function deleteUserById(req, res, next) {
 			where: { id },
 		});
 
-		res.clearCookie("token");
-		const message = { message: "Account deleted successfully" };
-		res.status(200).json(message);
+		req.logout((err) => {
+			if (err) return next(err);
+			const message = { message: "Account deleted successfully" };
+			res.status(200).json(message);
+		});
 	} catch (error) {
 		next(error);
 	}
