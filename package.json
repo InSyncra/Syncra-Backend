@@ -16,7 +16,7 @@
 	"author": "",
 	"license": "ISC",
 	"devDependencies": {
-		"@babel/core": "^7.27.1",
+		"@babel/core": "^7.27.4",
 		"@babel/preset-env": "^7.27.2",
 		"@biomejs/biome": "^1.9.4",
 		"@types/jest": "^29.5.14",
