@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@prisma/client':
-        specifier: 6.8.2
-        version: 6.8.2(prisma@6.8.2)
+        specifier: 6.9.0
+        version: 6.9.0(prisma@6.8.2)
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
@@ -838,8 +838,8 @@ packages:
   '@paralleldrive/cuid2@2.2.2':
     resolution: {integrity: sha512-ZOBkgDwEdoYVlSeRbYYXs0S9MejQofiVYoTbKzy/6GQa39/q5tQU2IX46+shYnUkpEl3wc+J6wRlar7r2EK2xA==}
 
-  '@prisma/client@6.8.2':
-    resolution: {integrity: sha512-5II+vbyzv4si6Yunwgkj0qT/iY0zyspttoDrL3R4BYgLdp42/d2C8xdi9vqkrYtKt9H32oFIukvyw3Koz5JoDg==}
+  '@prisma/client@6.9.0':
+    resolution: {integrity: sha512-Gg7j1hwy3SgF1KHrh0PZsYvAaykeR0PaxusnLXydehS96voYCGt1U5zVR31NIouYc63hWzidcrir1a7AIyCsNQ==}
     engines: {node: '>=18.18'}
     peerDependencies:
       prisma: '*'
@@ -3488,7 +3488,7 @@ snapshots:
     dependencies:
       '@noble/hashes': 1.8.0
 
-  '@prisma/client@6.8.2(prisma@6.8.2)':
+  '@prisma/client@6.9.0(prisma@6.8.2)':
     optionalDependencies:
       prisma: 6.8.2
 
