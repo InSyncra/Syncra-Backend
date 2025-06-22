@@ -29,7 +29,7 @@
 		"supertest": "^7.1.1"
 	},
 	"dependencies": {
-		"@prisma/client": "6.9.0",
+		"@prisma/client": "6.10.1",
 		"bcryptjs": "^3.0.2",
 		"connect-pg-simple": "^10.0.0",
 		"cookie-parser": "^1.4.7",
