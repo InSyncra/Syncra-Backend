@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma"
 import { sendSuccessResponse } from "../utils/responses"
+import type { Request, Response, NextFunction } from "express";
 
 /**
  * create a new project
@@ -7,7 +8,7 @@ import { sendSuccessResponse } from "../utils/responses"
  * @param {Response} res
  * @param {Function} next
  */
-export const createProject = async (req, res, next) => {
+export const createProject = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const project = await prisma.project.create({
 			data: {
@@ -28,7 +29,7 @@ export const createProject = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const getAllProjects = async (req, res, next) => {
+export const getAllProjects = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const projects = await prisma.project.findMany();
 		sendSuccessResponse(res, { data: projects });
@@ -43,7 +44,7 @@ export const getAllProjects = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const getProjectById = async (req, res, next) => {
+export const getProjectById = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { id } = req.params;
 
@@ -67,7 +68,7 @@ export const getProjectById = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const updateProjectById = async (req, res, next) => {
+export const updateProjectById = async (req: Request, res: Response, next: NextFunction) => {
 	const { id: projectId } = req.params;
 	// const { id: userId } = req.user;
 
@@ -101,7 +102,7 @@ export const updateProjectById = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const deleteProjectById = async (req, res, next) => {
+export const deleteProjectById = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { id: projectId } = req.params;
 		const { id: userId } = req.user;

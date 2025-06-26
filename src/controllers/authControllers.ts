@@ -4,8 +4,9 @@ import { prisma } from "../lib/prisma"
 import logger from "../utils/logger"
 import { sendSuccessResponse } from "../utils/responses"
 // import { validateRequestBody } from "../utils/validations/zod-error-formatter"
+import type { Request, Response, NextFunction } from "express";
 
-export async function getCurrentUser(req, res, next) {
+export async function getCurrentUser(req: Request, res: Response, next: NextFunction) {
 	try {
 		if (!req.user || typeof req.isAuthenticated !== "function" || !req.isAuthenticated()) {
 			return sendSuccessResponse(res, { data: null });
@@ -59,7 +60,7 @@ export async function getCurrentUser(req, res, next) {
 // 	}
 // }
 
-export async function signup(req, res, next) {
+export async function signup(req: Request, res: Response, next: NextFunction) {
 	const { password, ...userData } = req.body;
 
 	try {
@@ -194,7 +195,7 @@ export async function signup(req, res, next) {
 // 	return res.status(200).json({ message: "User logged out successfully" });
 // }
 
-export async function logout(req, res, next) {
+export async function logout(req: Request, res: Response, next: NextFunction) {
 	req.logout((error) => {
 		if (error) {
 			return next(error);

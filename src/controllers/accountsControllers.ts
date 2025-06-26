@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma"
 // import { validateRequestBody } from "../utils/validations/zod-error-formatter"
 // import { userUpdateSchema } from "../utils/validations/zod-schemas"
+import type { Request, Response, NextFunction } from "express";
 
 /**
  *
@@ -8,7 +9,7 @@ import { prisma } from "../lib/prisma"
  * @param {Response} res
  * @param {Function} next
  */
-export async function getAllUsers(req, res, next) {
+export async function getAllUsers(req: Request, res: Response, next: NextFunction) {
 	// TODO: Implement req.query for pagination and filtering on getAllUsers
 	try {
 		const users = await prisma.user.findMany();
@@ -24,7 +25,7 @@ export async function getAllUsers(req, res, next) {
  * @param {Response} res
  * @param {Function} next
  */
-export async function getUserById(req, res, next) {
+export async function getUserById(req: Request, res: Response, next: NextFunction) {
 	// get the user id from the request parameters
 	const { id } = req.params;
 
@@ -54,7 +55,7 @@ export async function getUserById(req, res, next) {
  * @param {Response} res
  * @param {Function} next
  */
-export async function updateUserById(req, res, next) {
+export async function updateUserById(req: Request, res: Response, next: NextFunction) {
 	// You can validate with just id. No need to convert to a new variable
 	const { id } = req.params;
 
@@ -99,7 +100,7 @@ export async function updateUserById(req, res, next) {
  * @param {Response} res
  * @param {Function} next
  */
-export async function deleteUserById(req, res, next) {
+export async function deleteUserById(req: Request, res: Response, next: NextFunction) {
 	const { id } = req.params;
 	const { id: userId } = req.user;
 

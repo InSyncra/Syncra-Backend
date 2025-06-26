@@ -1,6 +1,7 @@
 import { prisma } from "../lib/prisma"
 // import { commentSchema } from "../schemas/comment"
 // import { validateRequestBody } from "../utils/validations/zod-error-formatter"
+import type { Request, Response, NextFunction } from "express";
 
 // create a new comment
 /**
@@ -8,7 +9,7 @@ import { prisma } from "../lib/prisma"
  * @param {Response} res
  * @param {Function} next
  */
-export const createComment = async (req, res, next) => {
+export const createComment = async (req: Request, res: Response, next: NextFunction) => {
 	const { id: userId } = req.user;
 	const { body } = req.body;
 
@@ -46,7 +47,7 @@ export const createComment = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const getAllComments = async (req, res, next) => {
+export const getAllComments = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const comment = await prisma.comment.findMany();
 		res.json(comment);
@@ -61,7 +62,7 @@ export const getAllComments = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const getCommentsByProjectId = async (req, res, next) => {
+export const getCommentsByProjectId = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const { projectId } = req.params;
 
@@ -83,7 +84,7 @@ export const getCommentsByProjectId = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const updateCommentById = async (req, res, next) => {
+export const updateCommentById = async (req: Request, res: Response, next: NextFunction) => {
 	const { commentId } = req.params;
 	try {
 		// validateRequestBody(commentSchema, req, next);
@@ -112,7 +113,7 @@ export const updateCommentById = async (req, res, next) => {
  * @param {Response} res
  * @param {Function} next
  */
-export const deleteCommentById = async (req, res, next) => {
+export const deleteCommentById = async (req: Request, res: Response, next: NextFunction) => {
 	const { id } = req.params;
 	try {
 		const existingComment = await prisma.comment.findUnique({
