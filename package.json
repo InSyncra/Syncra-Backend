@@ -44,7 +44,7 @@
 		"passport-google-oauth20": "^2.0.0",
 		"passport-local": "^1.0.0",
 		"per-env": "^1.0.2",
-		"pg": "^8.18.0",
+		"pg": "^8.19.0",
 		"stripe": "^18.5.0",
 		"winston": "^3.19.0",
 		"zod": "^3.25.76"
